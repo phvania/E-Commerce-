@@ -1,6 +1,8 @@
-const { User, Product, Category, Order } = require('../models');
-const { signToken, AuthenticationError } = require('../utils/auth');
+const { User, Product, Category, Order,Tag } = require('../models');
+const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
+//stripe require a valid key
+const { AuthenticationError} = require ('apollo-server-express')
 
 const resolvers = {
   Query: {
@@ -54,25 +56,31 @@ const resolvers = {
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
       await Order.create({ products: args.products.map(({ _id }) => _id) });
-      const line_items = [];
+      const line_items = []; const { products } = await order.populate('products');
 
-      // eslint-disable-next-line no-restricted-syntax
-      for (const product of args.products) {
-        // Create a line item for each product
+      for (let i = 0; i < products.length; i++) {
+        const product = await stripe.products.create({
+          name: products[i].name,
+          description: products[i].description,
+          images: [`${url}/images/${products[i].image}`]
+        });
+        console.log("before strip.prices.create")
+       // console.log("prduct.id", product.id);
+       // console.log("unit_amount", Math.round(products[i].price * 100))
+        const price = await stripe.prices.create({
+          product: product.id,
+          unit_amount: parseInt(Math.round(products[i].price * 100)),
+          currency: 'aud',
+        });
+        console.log("after strip.prices.create price: ", price)
+
         line_items.push({
-          price_data: {
-            currency: 'usd',
-            product_data: {
-              name: product.name,
-              description: product.description,
-              images: [`${url}/images/${product.image}`]
-            },
-            unit_amount: product.price * 100,
-          },
-          quantity: product.purchaseQuantity,
+          price: price.id,
+          quantity: 1
         });
       }
-
+      // console.log("for loop prouct is finished")
+      
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items,
@@ -130,8 +138,22 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
-    }
+    },
+  
+    addtag: async (parent, { products }, context) => {
+      if (context.product) {
+        const tag = new Tag({ products });
+
+        await Product.findByIdAndUpdate(context.product._id, { $push: { tag: tag } });
+
+        return tag;
+      }
+
+      //throw AuthenticationError;
+
+
   }
+}
 };
 
 module.exports = resolvers;
