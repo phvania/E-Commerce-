@@ -1,12 +1,12 @@
 const db = require('./connection');
-const { User, Product, Category, Tag } = require('../models');
+const { User, Product, Category } = require('../models');
 const cleanDB = require('./cleanDB');
 
 db.once('open', async () => {
   await cleanDB('Category', 'categories');
   await cleanDB('Product', 'products');
   await cleanDB('User', 'users');
-  await cleanDB('Tag', 'tags')
+
 
   const categories = await Category.insertMany([
     { name: 'Romance' },
@@ -18,13 +18,6 @@ db.once('open', async () => {
 
   console.log('categories seeded');
 
-  const tags = await Tag.insertMany([
-    {name: 'classic'},
-    {name: 'best-seller'},
-    {name: 'new release'},
-    {name: 'sale'}
-  ])
-
   const products = await Product.insertMany([
     {
       name: 'Janye Eyre',
@@ -35,7 +28,7 @@ db.once('open', async () => {
       category: categories[0]._id,
       price: 29.99,
       quantity: 100,
-      tags: [tags[0]._id, tags[1]._id, tags[3]._id]
+      tags: ['best-seller', 'classic', 'sale']
       
     },
     {
@@ -47,7 +40,7 @@ db.once('open', async () => {
       category: categories[3]._id,
       price: 13.99,
       quantity: 100,
-      tag: [tags[3]._id]
+      tag: ['best-seller']
     },
     {
       name: 'Winchell',
@@ -58,7 +51,7 @@ db.once('open', async () => {
       image: 'http://bookcoverarchive.com/wp-content/uploads/amazon/winchell.jpg',
       price: 15.99,
       quantity: 20,
-      // tags: [tags[2]._id]
+      tags: ['sale']
     },
     {
       name: 'The Last Skin',
@@ -69,7 +62,7 @@ db.once('open', async () => {
       image: 'http://bookcoverarchive.com/wp-content/uploads/2010/09/the_last_skin.large_.jpg',
       price: 3.99,
       quantity: 50,
-      // tags: []
+      tags: ['sale']
     },
     {
       name: "Blood's a Rover",
@@ -80,7 +73,7 @@ db.once('open', async () => {
       image: 'http://bookcoverarchive.com/wp-content/uploads/amazon/bloods_a_rover.jpg',
       price: 3.99,
       quantity: 50,
-      // tags: [tags[2]._id]
+      tags: []
     },
   
   ]);

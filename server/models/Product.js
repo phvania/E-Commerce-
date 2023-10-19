@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
-const Tag = require('./Tag')
+
 
 const productSchema = new Schema({
   name: {
@@ -35,8 +35,7 @@ const productSchema = new Schema({
     required: true
   },
   tags: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Tag',
+    type: String,
     required: true
   }]
 });
