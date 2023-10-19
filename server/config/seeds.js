@@ -21,7 +21,8 @@ db.once('open', async () => {
   const tags = await Tag.insertMany([
     {name: 'classic'},
     {name: 'best-seller'},
-    {name: 'new release'}
+    {name: 'new release'},
+    {name: 'sale'}
   ])
 
   const products = await Product.insertMany([
@@ -34,7 +35,7 @@ db.once('open', async () => {
       category: categories[0]._id,
       price: 29.99,
       quantity: 100,
-      tags: [tags[0]._id, tags[1]._id]
+      tags: [tags[0]._id, tags[1]._id, tags[3]._id]
       
     },
     {
@@ -46,7 +47,7 @@ db.once('open', async () => {
       category: categories[3]._id,
       price: 13.99,
       quantity: 100,
-      // tag: []
+      tag: [tags[3]._id]
     },
     {
       name: 'Winchell',
