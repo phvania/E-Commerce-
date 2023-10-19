@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
+const Tag = require('./Tag')
 
 const productSchema = new Schema({
   name: {
@@ -8,6 +9,10 @@ const productSchema = new Schema({
     required: true,
     trim: true
   },
+  author: [{
+    type: String,
+    required: true
+  }],
   description: {
     type: String
   },
@@ -28,7 +33,12 @@ const productSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Category',
     required: true
-  }
+  },
+  tags: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Tag',
+    required: true
+  }]
 });
 
 const Product = mongoose.model('Product', productSchema);
