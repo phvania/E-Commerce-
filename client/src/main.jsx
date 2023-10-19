@@ -10,6 +10,10 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Success from './pages/Success';
 import OrderHistory from './pages/OrderHistory';
+import Contact from './pages/Contact';
+import Sales from './pages/Sales';
+import Search from './pages/Search';
+import Cart from './pages/Cart';
 
 const router = createBrowserRouter([
   {
@@ -35,6 +39,18 @@ const router = createBrowserRouter([
       }, {
         path: '/products/:id',
         element: <Detail />
+      }, {
+        path: '/contact',
+        element: <Contact />
+      }, {
+        path: '/sales',
+        element: <Sales />
+      }, {
+        path: '/search',
+        element: <Search />
+      }, {
+        path: '/cart/:id',
+        element: <Cart />
       }
     ]
   }
