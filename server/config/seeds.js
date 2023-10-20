@@ -56,7 +56,7 @@ db.once('open', async () => {
       price: 15.99,
       quantity: 20,
       tags: ['sale'],
-      dateAdded: '169782052542
+      dateAdded: '169782052542'
     },
     {
       name: 'The Last Skin',
