@@ -41,6 +41,10 @@ const productSchema = new Schema({
   sale: {
     type: Boolean,
     deault: false
+  },
+  dateAdded: {
+    type: Date,
+    default: Date.now
   }
 });
 

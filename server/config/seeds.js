@@ -28,7 +28,9 @@ db.once('open', async () => {
       category: categories[0]._id,
       price: 29.99,
       quantity: 100,
-      tags: ['best-seller', 'classic', 'sale']
+      tags: ['best-seller', 'classic', 'sale'],
+      sale: true,
+      dateAdded: '2023-10-18T16:20:06.532+00:00',
       
     },
     {
@@ -40,7 +42,9 @@ db.once('open', async () => {
       category: categories[3]._id,
       price: 13.99,
       quantity: 100,
-      tag: ['best-seller']
+      tag: ['best-seller'],
+      sale: true,
+      dateAdded: '2023-10-16T16:20:06.532+00:00',
     },
     {
       name: 'Winchell',
@@ -51,7 +55,8 @@ db.once('open', async () => {
       image: 'http://bookcoverarchive.com/wp-content/uploads/amazon/winchell.jpg',
       price: 15.99,
       quantity: 20,
-      tags: ['sale']
+      tags: ['sale'],
+      dateAdded: '2023-10-17T16:20:06.532+00:00',
     },
     {
       name: 'The Last Skin',
@@ -87,16 +92,31 @@ db.once('open', async () => {
     password: 'password12345',
     orders: [
       {
-        products: [products[0]._id, products[0]._id, products[1]._id]
+        products: [products[0]._id, products[0]._id, products[1]._id],
+        shipped: true,
       }
-    ]
+    ],
+
   });
 
   await User.create({
     firstName: 'Elijah',
     lastName: 'Holt',
     email: 'eholt@testmail.com',
-    password: 'password12345'
+    password: 'password12345',
+    orders: [
+      {
+        products: [products[2]._id, products[1]._id],
+      }
+    ],
+  });
+
+  await User.create({
+    firstName: 'Admin',
+    lastName: 'Admin',
+    email: 'admin@gmail.com',
+    password: 'adminpassword',
+    admin: true
   });
 
   console.log('users seeded');
