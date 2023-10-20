@@ -1,4 +1,5 @@
-const { User, Product, Category, Order } = require('../models');
+
+const { User, Product, Category, Order} = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 //stripe require a valid key
@@ -30,20 +31,19 @@ const resolvers = {
       return await Category.find();
     },
 
-    // products: async (parent, { category, name }) => {
-    //   const params = {};
+    products: async (parent, { categoryID}) => {
+      try {
+        const category = await Category.findById(categoryID);
 
-    //   if (category) {
-    //     params.category = category;
-    //   }
+        if (!category) {
+          throw new Error('Category not found');
+        }
+        return await Product.find({ category: categoryID });
 
-    //   if (name) {
-    //     params.name = {
-    //       $regex: name
-    //     };
-    //   }
-    //   return await Product.find(params).populate('category');
-    // },
+      } catch (error) {
+        throw new Error('Error fetching products by category');
+      }
+    },
 
     // get product by ID // no auth
 
