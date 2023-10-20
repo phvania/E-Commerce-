@@ -56,7 +56,7 @@ const typeDefs = gql `
     getSales: [Product]
     searchProducts(searchQuery: String!): [Product]
     categories: [Category]
-    products(category: ID, name: String): [Product]
+    # products(category: ID, name: String): [Product]
     product(_id: ID!): Product
     user: User
     order(_id: ID!): Order
@@ -67,7 +67,8 @@ const typeDefs = gql `
     addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
     addOrder(products: [ID]!): Order
     updateUser(firstName: String, lastName: String, email: String, password: String): User
-    updateProduct(_id: ID!, quantity: Int!): Product
+    updateCartProductCount(_id: ID!, quantity: Int!): Product
+    updateProduct(_id: ID!, quantity: Int, price: Float, sale: Boolean): Product
     login(email: String!, password: String!): Auth
     addTag(tagName: String!, productId: ID!):Tag
   }

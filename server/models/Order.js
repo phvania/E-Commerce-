@@ -12,7 +12,15 @@ const orderSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Product'
     }
-  ]
+  ],
+  shipped: {
+    type: Boolean,
+    default: false,
+  },
+  completed: {
+    type: Boolean,
+    default: false
+  }
 });
 
 const Order = mongoose.model('Order', orderSchema);
