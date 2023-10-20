@@ -28,7 +28,8 @@ db.once('open', async () => {
       category: categories[0]._id,
       price: 29.99,
       quantity: 100,
-      tags: ['best-seller', 'classic', 'sale']
+      tags: ['best-seller', 'classic', 'sale'],
+      sale: true,
       
     },
     {
@@ -40,7 +41,8 @@ db.once('open', async () => {
       category: categories[3]._id,
       price: 13.99,
       quantity: 100,
-      tag: ['best-seller']
+      tag: ['best-seller'],
+      sale: true,
     },
     {
       name: 'Winchell',
@@ -97,6 +99,14 @@ db.once('open', async () => {
     lastName: 'Holt',
     email: 'eholt@testmail.com',
     password: 'password12345'
+  });
+
+  await User.create({
+    firstName: 'Admin',
+    lastName: 'Admin',
+    email: 'admin@gmail.com',
+    password: 'adminpassword',
+    admin: true
   });
 
   console.log('users seeded');
