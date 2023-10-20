@@ -149,12 +149,11 @@ const resolvers = {
       return { token, user };
     },
   
-    addtag: async (parent, { name, productID }) => {
-      // if (context.) {} authenticate merchant login?
+    addTag: async (parent, { tagName, productID}) => {
 
       const updatedProduct = await Product.findByIdAndUpdate(
         productID,
-        { $push: { tags: name } },
+        { $push: { tags: tagName } },
         { new: true } // Return the updated product after the update
       );
       
