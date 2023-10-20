@@ -76,7 +76,6 @@ const typeDefs = gql `
     updateProduct(_id: ID!, quantity: Int, price: Float, sale: Boolean): Product
     login(email: String!, password: String!): Auth
     addTag(tagName: String!, productId: ID!):Tag
-
     deleteTag(tagName: String!, productId: ID!): Tag
   }
 `;

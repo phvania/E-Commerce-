@@ -30,6 +30,7 @@ db.once('open', async () => {
       quantity: 100,
       tags: ['best-seller', 'classic', 'sale'],
       sale: true,
+      dateAdded: '2023-10-18T16:20:06.532+00:00',
       
     },
     {
@@ -43,6 +44,7 @@ db.once('open', async () => {
       quantity: 100,
       tag: ['best-seller'],
       sale: true,
+      dateAdded: '2023-10-16T16:20:06.532+00:00',
     },
     {
       name: 'Winchell',
@@ -53,7 +55,8 @@ db.once('open', async () => {
       image: 'http://bookcoverarchive.com/wp-content/uploads/amazon/winchell.jpg',
       price: 15.99,
       quantity: 20,
-      tags: ['sale']
+      tags: ['sale'],
+      dateAdded: '2023-10-17T16:20:06.532+00:00',
     },
     {
       name: 'The Last Skin',
