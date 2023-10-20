@@ -6,6 +6,15 @@ const { AuthenticationError} = require ('apollo-server-express')
 
 const resolvers = {
   Query: {
+    searchProducts: async (parent, {searchQuery}) => {
+      const query = {
+        $or: [
+          { name: { $regex: searchQuery, $options: 'i' } }, // Case-insensitive regex match
+          { description: { $regex: searchQuery, $options: 'i' } }
+        ]
+      };
+      return await Product.find(query).exec();
+    },
     categories: async () => {
       return await Category.find();
     },
