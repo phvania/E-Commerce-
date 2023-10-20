@@ -30,7 +30,7 @@ db.once('open', async () => {
       quantity: 100,
       tags: ['best-seller', 'classic', 'sale'],
       sale: true,
-      dateAdded: '2023-10-18T16:20:06.532+00:00',
+      dateAdded: '1697820525420',
       
     },
     {
@@ -44,7 +44,7 @@ db.once('open', async () => {
       quantity: 100,
       tag: ['best-seller'],
       sale: true,
-      dateAdded: '2023-10-16T16:20:06.532+00:00',
+      dateAdded: '1697820525429',
     },
     {
       name: 'Winchell',
@@ -56,7 +56,7 @@ db.once('open', async () => {
       price: 15.99,
       quantity: 20,
       tags: ['sale'],
-      dateAdded: '2023-10-17T16:20:06.532+00:00',
+      dateAdded: '169782052542
     },
     {
       name: 'The Last Skin',
