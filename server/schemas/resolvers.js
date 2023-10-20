@@ -33,14 +33,13 @@ const resolvers = {
 
     products: async (parent, { categoryID}) => {
       try {
-        const category = await Category.findById(categoryId);
+        const category = await Category.findById(categoryID);
 
         if (!category) {
           throw new Error('Category not found');
         }
-        const products = await Product.find({ category: categoryID });
+        return await Product.find({ category: categoryID });
 
-        return products;
       } catch (error) {
         throw new Error('Error fetching products by category');
       }
