@@ -149,18 +149,22 @@ const resolvers = {
       return { token, user };
     },
   
-    addtag: async (parent, { products }, context) => {
-      if (context.product) {
-        const tag = new Tag({ products });
+    addtag: async (parent, { name, productID }) => {
+      // if (context.) {} authenticate merchant login?
 
-        await Product.findByIdAndUpdate(context.product._id, { $push: { tag: tag } });
-
-        return tag;
+      const updatedProduct = await Product.findByIdAndUpdate(
+        productID,
+        { $push: { tags: name } },
+        { new: true } // Return the updated product after the update
+      );
+      
+      if (!updatedProduct) {
+        throw new Error('Product not found'); // Handle the case when the product doesn't exist
       }
 
+      return updatedProduct;
+
       //throw AuthenticationError;
-
-
   }
 }
 };
