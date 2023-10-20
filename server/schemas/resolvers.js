@@ -6,6 +6,11 @@ const { AuthenticationError} = require ('apollo-server-express')
 
 const resolvers = {
   Query: {
+    getSales: async () => {
+      return await Product.find({
+        sale: true
+      })
+    },
     searchProducts: async (parent, {searchQuery}) => {
       const query = {
         $or: [
@@ -149,22 +154,20 @@ const resolvers = {
       return { token, user };
     },
   
-    addTag: async (parent, { tagName, productID}) => {
-
+    addTag: async (parent, { tagName, productID }) => {
       const updatedProduct = await Product.findByIdAndUpdate(
         productID,
         { $push: { tags: tagName } },
-        { new: true } // Return the updated product after the update
+        { new: true }
       );
-      
+    
       if (!updatedProduct) {
-        throw new Error('Product not found'); // Handle the case when the product doesn't exist
+        throw new Error('Product not found');
       }
-
-      return updatedProduct;
-
-      //throw AuthenticationError;
-  }
+    
+      return updatedProduct; // This should be outside the if block
+    } 
+    
 }
 };
 

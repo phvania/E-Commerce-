@@ -37,7 +37,11 @@ const productSchema = new Schema({
   tags: [{
     type: String,
     required: true
-  }]
+  }],
+  sale: {
+    type: Boolean,
+    deault: false
+  }
 });
 
 const Product = mongoose.model('Product', productSchema);
