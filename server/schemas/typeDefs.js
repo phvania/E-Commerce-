@@ -35,6 +35,7 @@ const typeDefs = gql `
     email: String!
     orders: [Order]
     password: String!
+    admin: Boolean
   }
 
   type Checkout {
