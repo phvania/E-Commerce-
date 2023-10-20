@@ -42,9 +42,6 @@ const typeDefs = gql `
     user: User
   }
 
-  type Tag {
-    name: string
-  }
 
   input ProductInput {
     _id: ID
@@ -56,6 +53,7 @@ const typeDefs = gql `
   }
 
   type Query {
+    searchProducts(searchQuery: String!): [Product]
     categories: [Category]
     products(category: ID, name: String): [Product]
     product(_id: ID!): Product
@@ -70,7 +68,7 @@ const typeDefs = gql `
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     updateProduct(_id: ID!, quantity: Int!): Product
     login(email: String!, password: String!): Auth
-    addtag(name: String!):Tag
+    addTag(tagName: String!, productId: ID!):Tag
   }
 `;
 

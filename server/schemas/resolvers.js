@@ -6,6 +6,15 @@ const { AuthenticationError} = require ('apollo-server-express')
 
 const resolvers = {
   Query: {
+    searchProducts: async (parent, {searchQuery}) => {
+      const query = {
+        $or: [
+          { name: { $regex: searchQuery, $options: 'i' } }, // Case-insensitive regex match
+          { description: { $regex: searchQuery, $options: 'i' } }
+        ]
+      };
+      return await Product.find(query).exec();
+    },
     categories: async () => {
       return await Category.find();
     },
@@ -140,18 +149,21 @@ const resolvers = {
       return { token, user };
     },
   
-    addtag: async (parent, { products }, context) => {
-      if (context.product) {
-        const tag = new Tag({ products });
+    addTag: async (parent, { tagName, productID}) => {
 
-        await Product.findByIdAndUpdate(context.product._id, { $push: { tag: tag } });
-
-        return tag;
+      const updatedProduct = await Product.findByIdAndUpdate(
+        productID,
+        { $push: { tags: tagName } },
+        { new: true } // Return the updated product after the update
+      );
+      
+      if (!updatedProduct) {
+        throw new Error('Product not found'); // Handle the case when the product doesn't exist
       }
 
+      return updatedProduct;
+
       //throw AuthenticationError;
-
-
   }
 }
 };
