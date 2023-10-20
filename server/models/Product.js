@@ -43,7 +43,7 @@ const productSchema = new Schema({
     deault: false
   },
   dateAdded: {
-    type: Date,
+    type: String,
     default: Date.now
   }
 });
