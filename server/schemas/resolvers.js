@@ -31,20 +31,20 @@ const resolvers = {
       return await Category.find();
     },
 
-    // products: async (parent, { category, name }) => {
-    //   const params = {};
+    products: async (parent, { categoryID}) => {
+      try {
+        const category = await Category.findById(categoryId);
 
-    //   if (category) {
-    //     params.category = category;
-    //   }
+        if (!category) {
+          throw new Error('Category not found');
+        }
+        const products = await Product.find({ category: categoryID });
 
-    //   if (name) {
-    //     params.name = {
-    //       $regex: name
-    //     };
-    //   }
-    //   return await Product.find(params).populate('category');
-    // },
+        return products;
+      } catch (error) {
+        throw new Error('Error fetching products by category');
+      }
+    },
 
     // get product by ID // no auth
 
