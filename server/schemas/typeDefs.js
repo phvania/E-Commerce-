@@ -59,6 +59,7 @@ const typeDefs = gql `
     # products(category: ID, name: String): [Product]
     product(_id: ID!): Product
     user: User
+    viewOrders(shipped: Boolean, completed: Boolean): [Order]
     order(_id: ID!): Order
     checkout(products: [ProductInput]): Checkout
   }
@@ -68,9 +69,15 @@ const typeDefs = gql `
     addOrder(products: [ID]!): Order
     updateUser(firstName: String, lastName: String, email: String, password: String): User
     updateCartProductCount(_id: ID!, quantity: Int!): Product
+
+    addProduct
+    deleteProduct
+
     updateProduct(_id: ID!, quantity: Int, price: Float, sale: Boolean): Product
     login(email: String!, password: String!): Auth
     addTag(tagName: String!, productId: ID!):Tag
+
+    deleteTag(tagName: String!, productId: ID!): Tag
   }
 `;
 
