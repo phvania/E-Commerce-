@@ -10,10 +10,12 @@ import spinner from '../../assets/spinner.gif';
 function ProductList() {
   const [state, dispatch] = useStoreContext();
 
-  const { currentCategory } = state;
+  // const { currentCategory } = state;
 
-  const { loading, data } = useQuery(QUERY_PRODUCTS);
+  const currentCategory = '6532af6dbc3eaef92634935b'
+  const { loading, data } = useQuery(QUERY_PRODUCTS, {variables: {categoryID: currentCategory}});
 
+  console.log(data);
   useEffect(() => {
     if (data) {
       dispatch({
