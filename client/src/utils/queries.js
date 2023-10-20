@@ -12,6 +12,8 @@ export const QUERY_PRODUCTS = gql`
         quantity
         _id
         category
+        sale
+        tags
       }
     }
 `;
