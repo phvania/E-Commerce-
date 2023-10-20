@@ -16,12 +16,16 @@ const typeDefs = gql `
     price: Float
     category: ID
     tags: [ID]
+    sale: Boolean
+    dateAdded: Date
   }
 
   type Order {
     _id: ID
     purchaseDate: String
     products: [ID]
+    shipped: Boolean
+    completed: Boolean
   }
 
   type User {
