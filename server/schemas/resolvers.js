@@ -14,8 +14,9 @@ const resolvers = {
     searchProducts: async (parent, {searchQuery}) => {
       const query = {
         $or: [
-          { name: { $regex: searchQuery, $options: 'i' } }, // Case-insensitive regex match
-          { description: { $regex: searchQuery, $options: 'i' } }
+          { name: { $regex: searchQuery, $options: 'i' } }, 
+          { description: { $regex: searchQuery, $options: 'i' } },
+          { tags: { $regex: searchQuery, $options: 'i' } }
         ]
       };
       return await Product.find(query).exec();
@@ -131,11 +132,35 @@ const resolvers = {
 
       throw AuthenticationError;
     },
-    updateProduct: async (parent, { _id, quantity }) => {
+    updateCartProductCount: async (parent, { _id, quantity }) => {
       const decrement = Math.abs(quantity) * -1;
 
       return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
     },
+
+      updateProduct: async (parent, { _id, quantity, price, sale }) => {
+        try {
+          const updatedProduct = await Product.findByIdAndUpdate(
+            _id,
+            {
+              $set: {
+                quantity: quantity !== undefined ? quantity : null,
+                price: price !== undefined ? price : null,
+                sale: sale !== undefined ? sale : null,
+              },
+            },
+            { new: true }
+          );
+          if (!updatedProduct) {
+            throw new Error('Product not found');
+          }
+  
+          return updatedProduct;
+        } catch (error) {
+          throw error;
+        }
+      },
+
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
@@ -165,7 +190,7 @@ const resolvers = {
         throw new Error('Product not found');
       }
     
-      return updatedProduct; // This should be outside the if block
+      return updatedProduct; 
     } 
     
 }
