@@ -16,12 +16,16 @@ const typeDefs = gql `
     price: Float
     category: ID
     tags: [ID]
+    sale: Boolean
+    dateAdded: Date
   }
 
   type Order {
     _id: ID
     purchaseDate: String
     products: [ID]
+    shipped: Boolean
+    completed: Boolean
   }
 
   type User {
@@ -31,6 +35,7 @@ const typeDefs = gql `
     email: String!
     orders: [Order]
     password: String!
+    admin: Boolean
   }
 
   type Checkout {
@@ -76,7 +81,6 @@ const typeDefs = gql `
     updateProduct(_id: ID!, quantity: Int, price: Float, sale: Boolean): Product
     login(email: String!, password: String!): Auth
     addTag(tagName: String!, productId: ID!):Tag
-
     deleteTag(tagName: String!, productId: ID!): Tag
   }
 `;

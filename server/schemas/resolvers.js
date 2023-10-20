@@ -181,6 +181,23 @@ const resolvers = {
       return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
     },
 
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw AuthenticationError;
+      }
+
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw AuthenticationError;
+      }
+
+      const token = signToken(user);
+
+      return { token, user };
+    },
     // update product info // admin auth
     updateProduct: async (parent, { _id, quantity, price, sale }, context) => {
       if (context.user.admin) {
@@ -208,25 +225,6 @@ const resolvers = {
         throw AuthenticationError
       }
     },
-
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
-
-      if (!user) {
-        throw AuthenticationError;
-      }
-
-      const correctPw = await user.isCorrectPassword(password);
-
-      if (!correctPw) {
-        throw AuthenticationError;
-      }
-
-      const token = signToken(user);
-
-      return { token, user };
-    },
-
     // add and remove tag admin auth
     addTag: async (parent, { tagName, productID }, context) => {
 
@@ -246,7 +244,6 @@ const resolvers = {
         throw AuthenticationError
       }
     },
-
     deleteTag: async (parent, { tagName, productID }, context) => {
       if (context.user.admin) {
         try {
@@ -255,12 +252,12 @@ const resolvers = {
             throw new Error('Product not found');
           }
           const tagIndex = product.tags.indexOf(tagName);
-    
+
           if (tagIndex === -1) {
             throw new Error('Tag not found in this product');
           }
           product.tags.splice(tagIndex, 1);
-    
+
           return await product.save();
         } catch (err) {
           throw err;
@@ -268,8 +265,8 @@ const resolvers = {
       }
       throw new AuthenticationError('Admin access required');
     }
-    
-}
+
+  }
 }
 
 
