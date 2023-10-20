@@ -69,23 +69,26 @@ const resolvers = {
 
     // view all orders // admin auth
     viewOrders: async (parent, { shipped, completed }, context) => {
-      if (context.user.admin) {
+      // console.log(context)
+      // console.log(context.user, '<---------------')
+      // if (context.user.admin) {
         try {
-          const filter = {};
           if (shipped) {
-            filter.shipped = shipped;
-          }
-          if (completed) {
-            filter.completed = completed;
+            return await Order.find({shipped: true})
+          } else if (completed) {
+            return await Order.find({completed: true})
+          } else if (shipped && completed) {
+            return await Order.find({shipped: true, completed: true})
+          } else {
+            return await Order.find()
           }
 
-          return await Order.find(filter)
         } catch (err) {
           throw err;
         }
-      } else {
-        throw AuthenticationError;
-      }
+      // } else {
+      //   throw AuthenticationError;
+      // }
     },
 
 

@@ -15,7 +15,7 @@ const typeDefs = gql `
     quantity: Int
     price: Float
     category: ID
-    tags: [ID]
+    tags: [String]
     sale: Boolean
     dateAdded: String
   }
@@ -33,7 +33,7 @@ const typeDefs = gql `
     firstName: String!
     lastName: String!
     email: String!
-    orders: [Order]
+    orders: [ID]
     password: String!
     admin: Boolean
   }
