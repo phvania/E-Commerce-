@@ -1,4 +1,5 @@
-const { User, Product, Category, Order, Tag } = require('../models');
+
+const { User, Product, Category, Order } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 //stripe require a valid key
@@ -30,20 +31,19 @@ const resolvers = {
       return await Category.find();
     },
 
-    // products: async (parent, { category, name }) => {
-    //   const params = {};
+    products: async (parent, { categoryID }) => {
+      try {
+        const category = await Category.findById(categoryID);
 
-    //   if (category) {
-    //     params.category = category;
-    //   }
+        if (!category) {
+          throw new Error('Category not found');
+        }
+        return await Product.find({ category: categoryID });
 
-    //   if (name) {
-    //     params.name = {
-    //       $regex: name
-    //     };
-    //   }
-    //   return await Product.find(params).populate('category');
-    // },
+      } catch (error) {
+        throw new Error('Error fetching products by category');
+      }
+    },
 
     // get product by ID // no auth
 
@@ -69,17 +69,20 @@ const resolvers = {
 
     // view all orders // admin auth
     viewOrders: async (parent, { shipped, completed }, context) => {
+      // console.log(context)
+      // console.log(context.user, '<---------------')
       if (context.user.admin) {
         try {
-          const filter = {};
           if (shipped) {
-            filter.shipped = shipped;
-          }
-          if (completed) {
-            filter.completed = completed;
+            return await Order.find({ shipped: true })
+          } else if (completed) {
+            return await Order.find({ completed: true })
+          } else if (shipped && completed) {
+            return await Order.find({ shipped: true, completed: true })
+          } else {
+            return await Order.find()
           }
 
-          return await Order.find(filter)
         } catch (err) {
           throw err;
         }
@@ -181,6 +184,99 @@ const resolvers = {
       return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
     },
 
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        throw AuthenticationError;
+      }
+
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw AuthenticationError;
+      }
+
+      const token = signToken(user);
+
+      return { token, user };
+    },
+
+    //update shipped and completed boolean // admin  auth 
+    updateOrderShipped: async (parent, { _id, shipped }, context) => {
+      if (context.user.admin) {
+        try {
+          const updatedOrder = await Order.findByIdAndUpdate(_id, { shipped }, { new: true });
+
+          if (!updatedOrder) {
+            throw new Error('Order not found');
+          }
+
+          return updatedOrder;
+        } catch (error) {
+          throw new Error('Failed to update the order shipped status');
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+    updateOrderCompleted: async (parent, { _id, completed }, context) => {
+      if (context.user.admin) {
+        try {
+          const completedOrder = await Order.findByIdAndUpdate(_id, { completed }, { new: true });
+
+          if (!completedOrder) {
+            throw new Error('Order not found');
+          }
+
+          return completedOrder;
+        } catch (error) {
+          throw new Error('Failed to update the order completed status');
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+
+    // add product // admin auth
+    addProduct: async (parent, { name, author, description, image, price, quantity, category, tags, sale }, context) => {
+      if (context.user.admin) {
+        try {
+          return await Product.create({
+            name,
+            author,
+            description,
+            image,
+            price,
+            category,
+            tags,
+            sale,
+          })
+        } catch (err) {
+          throw err;
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+
+    // delete product // admin auth
+    deleteProduct: async (parent, { _id }, context) => {
+      if (context.user.admin) {
+        try {
+          const deletedProduct = await Product.findByIdAndRemove(_id)
+          if (!deletedProduct) {
+            throw new Error('Product not found');
+          }
+          return deletedProduct;
+        } catch (err) {
+          throw err;
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+
     // update product info // admin auth
     updateProduct: async (parent, { _id, quantity, price, sale }, context) => {
       if (context.user.admin) {
@@ -208,25 +304,6 @@ const resolvers = {
         throw AuthenticationError
       }
     },
-
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
-
-      if (!user) {
-        throw AuthenticationError;
-      }
-
-      const correctPw = await user.isCorrectPassword(password);
-
-      if (!correctPw) {
-        throw AuthenticationError;
-      }
-
-      const token = signToken(user);
-
-      return { token, user };
-    },
-
     // add and remove tag admin auth
     addTag: async (parent, { tagName, productID }, context) => {
 
@@ -246,7 +323,6 @@ const resolvers = {
         throw AuthenticationError
       }
     },
-
     deleteTag: async (parent, { tagName, productID }, context) => {
       if (context.user.admin) {
         try {
@@ -255,12 +331,12 @@ const resolvers = {
             throw new Error('Product not found');
           }
           const tagIndex = product.tags.indexOf(tagName);
-    
+
           if (tagIndex === -1) {
             throw new Error('Tag not found in this product');
           }
           product.tags.splice(tagIndex, 1);
-    
+
           return await product.save();
         } catch (err) {
           throw err;
@@ -268,8 +344,8 @@ const resolvers = {
       }
       throw new AuthenticationError('Admin access required');
     }
-    
-}
+
+  }
 }
 
 
