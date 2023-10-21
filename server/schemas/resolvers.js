@@ -1,5 +1,5 @@
 
-const { User, Product, Category, Order } = require('../models');
+const { User, Product, Category, Order} = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 //stripe require a valid key
@@ -30,8 +30,8 @@ const resolvers = {
     categories: async () => {
       return await Category.find();
     },
-
-    products: async (parent, { categoryID }) => {
+    
+    products: async (parent, { categoryID}) => {
       try {
         const category = await Category.findById(categoryID);
 
@@ -71,6 +71,7 @@ const resolvers = {
     viewOrders: async (parent, { shipped, completed }, context) => {
       // console.log(context)
       // console.log(context.user, '<---------------')
+
       if (context.user.admin) {
         try {
           if (shipped) {
@@ -86,9 +87,9 @@ const resolvers = {
         } catch (err) {
           throw err;
         }
-      } else {
-        throw AuthenticationError;
-      }
+      // } else {
+      //   throw AuthenticationError;
+      // }
     },
 
 
@@ -195,6 +196,7 @@ const resolvers = {
       return { token, user };
     },
 
+
     //update shipped and completed boolean // admin  auth 
     updateOrderShipped: async (parent, { _id, shipped }, context) => {
       if (context.user.admin) {
@@ -269,6 +271,7 @@ const resolvers = {
         throw AuthenticationError
       }
     },
+
 
     // update product info // admin auth
     updateProduct: async (parent, { _id, quantity, price, sale }, context) => {

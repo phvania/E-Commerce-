@@ -1,11 +1,17 @@
 
 const Sales = () => {
-    return (
+   return (
         <div>
-            <h3>Current Sales</h3>
+            <h3> current Sales product</h3>
+            <p>salesProductList</p> 
+            const { `Image, ProductItem price, quentity`} = ProductItem
         </div>
     )
 
-}
+}           
+
+
+    
+            
 
 export default Sales;
