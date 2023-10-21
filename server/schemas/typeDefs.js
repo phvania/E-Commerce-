@@ -9,19 +9,23 @@ const typeDefs = gql `
   type Product {
     _id: ID
     name: String!
-    author: String!
+    author: [String!]
     description: String
     image: String
     quantity: Int
     price: Float
     category: ID
-    tags: [ID]
+    tags: [String]
+    sale: Boolean
+    dateAdded: String
   }
 
   type Order {
     _id: ID
     purchaseDate: String
     products: [ID]
+    shipped: Boolean
+    completed: Boolean
   }
 
   type User {
@@ -29,8 +33,9 @@ const typeDefs = gql `
     firstName: String!
     lastName: String!
     email: String!
-    orders: [Order]
+    orders: [ID]
     password: String!
+    admin: Boolean
   }
 
   type Checkout {
@@ -56,7 +61,7 @@ const typeDefs = gql `
     getSales: [Product]
     searchProducts(searchQuery: String!): [Product]
     categories: [Category]
-    # products(category: ID, name: String): [Product]
+    products(categoryID: ID): [Product]
     product(_id: ID!): Product
     user: User
     viewOrders(shipped: Boolean, completed: Boolean): [Order]
@@ -68,16 +73,14 @@ const typeDefs = gql `
     addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
     addOrder(products: [ID]!): Order
     updateUser(firstName: String, lastName: String, email: String, password: String): User
-    updateCartProductCount(_id: ID!, quantity: Int!): Product
-
-    addProduct
-    deleteProduct
-
+    updateOrderShipped(_id: ID!, shipped: Boolean!): Order
+    updateOrderCompleted(_id: ID!, completed: Boolean!): Order
+    addProduct(name: String, author: [String], description: [String], image: [String], price: Float, quantity: Int, category: String, tags: [String], sale: Boolean): Product
+    deleteProduct(_id: ID!): Product
     updateProduct(_id: ID!, quantity: Int, price: Float, sale: Boolean): Product
     login(email: String!, password: String!): Auth
-    addTag(tagName: String!, productId: ID!):Tag
-
-    deleteTag(tagName: String!, productId: ID!): Tag
+    addTag(tagName: String!, productId: ID!):Product
+    deleteTag(tagName: String!, productId: ID!): Product
   }
 `;
 
