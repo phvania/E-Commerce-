@@ -12,10 +12,9 @@ function ProductList() {
 
   const { currentCategory } = state;
 
-  console.log(currentCategory)
+ 
   const { loading, data } = useQuery(QUERY_PRODUCTS, {variables: { categoryID: currentCategory }});
-  console.log('Data:', data);
-  console.log('Loading:', loading);
+  
   useEffect(() => {
     if (data) {
       dispatch({
@@ -39,13 +38,10 @@ function ProductList() {
   }, [data, loading, dispatch]);
 
   function filterProducts() {
-    if (!currentCategory) {
-      return state.products;
-    }
 
-    return state.products.filter(
-      (product) => product.category._id === currentCategory
-    );
+
+    return state.products
+
   }
 
   return (
