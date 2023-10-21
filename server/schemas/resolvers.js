@@ -30,7 +30,7 @@ const resolvers = {
     categories: async () => {
       return await Category.find();
     },
-
+    
     products: async (parent, { categoryID}) => {
       try {
         const category = await Category.findById(categoryID);
@@ -71,14 +71,15 @@ const resolvers = {
     viewOrders: async (parent, { shipped, completed }, context) => {
       // console.log(context)
       // console.log(context.user, '<---------------')
-      // if (context.user.admin) {
+
+      if (context.user.admin) {
         try {
           if (shipped) {
-            return await Order.find({shipped: true})
+            return await Order.find({ shipped: true })
           } else if (completed) {
-            return await Order.find({completed: true})
+            return await Order.find({ completed: true })
           } else if (shipped && completed) {
-            return await Order.find({shipped: true, completed: true})
+            return await Order.find({ shipped: true, completed: true })
           } else {
             return await Order.find()
           }
@@ -201,6 +202,84 @@ const resolvers = {
 
       return { token, user };
     },
+
+
+    //update shipped and completed boolean // admin  auth 
+    updateOrderShipped: async (parent, { _id, shipped }, context) => {
+      if (context.user.admin) {
+        try {
+          const updatedOrder = await Order.findByIdAndUpdate(_id, { shipped }, { new: true });
+
+          if (!updatedOrder) {
+            throw new Error('Order not found');
+          }
+
+          return updatedOrder;
+        } catch (error) {
+          throw new Error('Failed to update the order shipped status');
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+    updateOrderCompleted: async (parent, { _id, completed }, context) => {
+      if (context.user.admin) {
+        try {
+          const completedOrder = await Order.findByIdAndUpdate(_id, { completed }, { new: true });
+
+          if (!completedOrder) {
+            throw new Error('Order not found');
+          }
+
+          return completedOrder;
+        } catch (error) {
+          throw new Error('Failed to update the order completed status');
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+
+    // add product // admin auth
+    addProduct: async (parent, { name, author, description, image, price, quantity, category, tags, sale }, context) => {
+      if (context.user.admin) {
+        try {
+          return await Product.create({
+            name,
+            author,
+            description,
+            image,
+            price,
+            category,
+            tags,
+            sale,
+          })
+        } catch (err) {
+          throw err;
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+
+    // delete product // admin auth
+    deleteProduct: async (parent, { _id }, context) => {
+      if (context.user.admin) {
+        try {
+          const deletedProduct = await Product.findByIdAndRemove(_id)
+          if (!deletedProduct) {
+            throw new Error('Product not found');
+          }
+          return deletedProduct;
+        } catch (err) {
+          throw err;
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+
+
     // update product info // admin auth
     updateProduct: async (parent, { _id, quantity, price, sale }, context) => {
       if (context.user.admin) {
