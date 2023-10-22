@@ -12,10 +12,9 @@ function ProductList() {
 
   // const { currentCategory } = state;
 
-  const currentCategory = '6532af6dbc3eaef92634935b'
-  const { loading, data } = useQuery(QUERY_PRODUCTS, {variables: {categoryID: currentCategory}});
-
-  console.log(data);
+ 
+  const { loading, data } = useQuery(QUERY_PRODUCTS, {variables: { categoryID: currentCategory }});
+  
   useEffect(() => {
     if (data) {
       dispatch({
@@ -25,6 +24,9 @@ function ProductList() {
       data.products.forEach((product) => {
         idbPromise('products', 'put', product);
       });
+
+      console.log(data)
+      console.log(data.products)
     } else if (!loading) {
       idbPromise('products', 'get').then((products) => {
         dispatch({
@@ -36,6 +38,10 @@ function ProductList() {
   }, [data, loading, dispatch]);
 
   function filterProducts() {
+
+
+    return state.products
+
 
     if (!currentCategory) {
       return state.products;

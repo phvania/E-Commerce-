@@ -34,16 +34,17 @@ const resolvers = {
     products: async (parent, { categoryID}) => {
       try {
         const category = await Category.findById(categoryID);
-
+    
         if (!category) {
           throw new Error('Category not found');
         }
         return await Product.find({ category: categoryID });
-
+    
       } catch (error) {
         throw new Error('Error fetching products by category');
       }
     },
+    
 
     // get product by ID // no auth
 
@@ -176,13 +177,6 @@ const resolvers = {
       }
 
       throw AuthenticationError;
-    },
-
-    // update count of items in cart // no auth
-    updateCartProductCount: async (parent, { _id, quantity }) => {
-      const decrement = Math.abs(quantity) * -1;
-
-      return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
     },
 
     login: async (parent, { email, password }) => {
