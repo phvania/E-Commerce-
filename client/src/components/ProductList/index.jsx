@@ -39,19 +39,7 @@ function ProductList() {
   }, [data, loading, dispatch]);
 
   function filterProducts() {
-
-
     return state.products
-
-
-    if (!currentCategory) {
-      return state.products;
-
-    } else if (currentCategory) {
-      return state.products.filter(
-        (product) => product.category._id === currentCategory
-      );
-    }
   }
 
   function quickSort(array, order) {

@@ -7,6 +7,10 @@ import {
 } from '../../utils/actions';
 import { QUERY_CATEGORIES } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
+import AuthService from '../../utils/auth';
+
+const isAdmin = AuthService.checkAdmin();
+console.log(isAdmin)
 
 function CategoryMenu() {
   const [state, dispatch] = useStoreContext();
@@ -60,6 +64,11 @@ function CategoryMenu() {
       <button onClick={() => { handleClick('') }}>
         All
       </button>
+      {isAdmin && (
+      <button>
+        LET ME IN
+      </button>
+    )}
     </div>
   );
 }
