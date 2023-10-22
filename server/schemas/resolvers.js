@@ -91,6 +91,7 @@ const resolvers = {
       // } else {
       //   throw AuthenticationError;
       // }
+    }
     },
 
 
@@ -112,7 +113,7 @@ const resolvers = {
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
       await Order.create({ products: args.products.map(({ _id }) => _id) });
-      const line_items = []; const { products } = await order.populate('products');
+      const line_items = []; const { products } = await Order.populate('products');
 
       for (let i = 0; i < products.length; i++) {
         const product = await stripe.products.create({
