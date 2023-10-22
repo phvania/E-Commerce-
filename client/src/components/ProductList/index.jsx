@@ -10,7 +10,7 @@ import spinner from '../../assets/spinner.gif';
 function ProductList() {
   const [state, dispatch] = useStoreContext();
 
-  const { currentCategory } = state;
+  // const { currentCategory } = state;
 
  
   const { loading, data } = useQuery(QUERY_PRODUCTS, {variables: { categoryID: currentCategory }});
@@ -42,6 +42,52 @@ function ProductList() {
 
     return state.products
 
+
+    if (!currentCategory) {
+      return state.products;
+
+    } else if (currentCategory) {
+      return state.products.filter(
+        (product) => product.category._id === currentCategory
+      );
+    }
+  }
+
+  function quickSort(array, order) {
+    // sorts in ascending order
+    // escape case for small arrays, or no sorting order
+    if (array.length <= 1 || !order) {
+      return array;
+    }
+    const pivot = array.splice(Math.floor(Math.random() * array.length), 1);
+    const left = [];
+    const right = [];
+    array.forEach((el) => {
+      if (order == 'asc') {
+        if (el.price <= pivot.price) {
+          left.push(el);
+        } else {
+          right.push(el);
+        }
+      } else if (order == 'desc') {
+        if (el.price > pivot.price) {
+          left.push(el);
+        } else {
+          right.push(el);
+        }
+      } else if (order == 'new') {
+        // sort asc
+      } else if (order == 'old') {
+        // sort desc
+      }
+    });
+    return quickSort(left).concat(pivot, quickSort(right));
+  }
+
+  function sortProducts(products) {
+    // sorts an array of products based upon state.sort string
+    let sorted = quickSort(products, state.sort);
+    return sorted
   }
 
   return (
@@ -49,7 +95,7 @@ function ProductList() {
       <h2>Our Products:</h2>
       {state.products.length ? (
         <div className="flex-row">
-          {filterProducts().map((product) => (
+          {sortProducts(filterProducts().map((product) => (
             <ProductItem
               key={product._id}
               _id={product._id}
@@ -58,7 +104,7 @@ function ProductList() {
               price={product.price}
               quantity={product.quantity}
             />
-          ))}
+          )))}
         </div>
       ) : (
         <h3>You haven't added any products yet!</h3>
