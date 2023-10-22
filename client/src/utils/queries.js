@@ -15,6 +15,7 @@ export const QUERY_PRODUCTS = gql`
       tags
       dateAdded
     }
+  }
 `;
 
 
