@@ -30,7 +30,16 @@ const resolvers = {
     categories: async () => {
       return await Category.find();
     },
-    
+
+    allProducts: async () => {
+      try {
+        const products = await Product.find();
+        return products;
+      } catch (error) {
+        throw new Error('Error fetching products');
+      }
+    },
+
     products: async (parent, { categoryID}) => {
       try {
         const category = await Category.findById(categoryID);

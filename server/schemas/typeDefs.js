@@ -61,6 +61,7 @@ const typeDefs = gql `
     getSales: [Product]
     searchProducts(searchQuery: String!): [Product]
     categories: [Category]
+    allProducts: [Product]
     products(categoryID: ID): [Product]
     product(_id: ID!): Product
     user: User
