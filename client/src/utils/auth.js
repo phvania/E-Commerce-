@@ -2,7 +2,6 @@ import decode from 'jwt-decode';
 
 class AuthService {
   getProfile() {
-    console.log(this)
     return decode(this.getToken());
   }
 
@@ -33,6 +32,7 @@ class AuthService {
     localStorage.setItem('id_token', idToken);
 
     window.location.assign('/');
+
   }
 
   logout() {
@@ -40,6 +40,16 @@ class AuthService {
     localStorage.removeItem('id_token');
     // this will reload the page and reset the state of the application
     window.location.assign('/');
+  }
+
+  checkAdmin() {
+    const token= this.getToken();
+    if (!token) {
+      return false
+    } 
+
+    const decoded = decode(token);
+    return decoded.data.admin === true;
   }
 }
 

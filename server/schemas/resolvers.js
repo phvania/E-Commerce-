@@ -30,20 +30,35 @@ const resolvers = {
     categories: async () => {
       return await Category.find();
     },
-    
-    products: async (parent, { categoryID}) => {
+
+    allProducts: async () => {
       try {
+        const products = await Product.find();
+        return products;
+      } catch (error) {
+        throw new Error('Error fetching products');
+      }
+    },
+
+    products: async (parent, { categoryID }) => {
+      try {
+        if (!categoryID) {
+
+          return await Product.find();
+        }
+    
         const category = await Category.findById(categoryID);
     
         if (!category) {
           throw new Error('Category not found');
         }
-        return await Product.find({ category: categoryID });
     
+        return await Product.find({ category: categoryID });
       } catch (error) {
         throw new Error('Error fetching products by category');
       }
     },
+    
     
 
     // get product by ID // no auth

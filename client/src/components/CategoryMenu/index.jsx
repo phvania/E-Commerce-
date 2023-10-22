@@ -7,6 +7,10 @@ import {
 } from '../../utils/actions';
 import { QUERY_CATEGORIES } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
+import AuthService from '../../utils/auth';
+
+const isAdmin = AuthService.checkAdmin();
+
 
 function CategoryMenu() {
   const [state, dispatch] = useStoreContext();
@@ -34,12 +38,15 @@ function CategoryMenu() {
     }
   }, [categoryData, loading, dispatch]);
 
-  const handleClick = (id) => {
+  const handleClick = (categoryID) => {
     dispatch({
       type: UPDATE_CURRENT_CATEGORY,
-      currentCategory: id,
+      currentCategory: categoryID,
     });
   };
+  
+
+  
 
   return (
     <div>
@@ -57,6 +64,12 @@ function CategoryMenu() {
       <button onClick={() => { handleClick('') }}>
         All
       </button>
+
+      {isAdmin && (
+      <button>
+        Admin testing
+      </button>
+    )}
     </div>
   );
 }

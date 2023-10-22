@@ -34,15 +34,18 @@ export const QUERY_CHECKOUT = gql`
 
 export const QUERY_ALL_PRODUCTS = gql`
   {
-    products {
+    allProducts {
       _id
       name
+      author
       description
-      price
+      image
       quantity
-      category {
-        name
-      }
+      price
+      category
+      tags
+      sale
+      dateAdded
     }
   }
 `;

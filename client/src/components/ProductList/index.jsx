@@ -7,13 +7,15 @@ import { QUERY_PRODUCTS } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
 
+
 function ProductList() {
   const [state, dispatch] = useStoreContext();
 
   const { currentCategory } = state;
-
- 
-  const { loading, data } = useQuery(QUERY_PRODUCTS, {variables: { categoryID: currentCategory }});
+  const { loading, data } = useQuery(QUERY_PRODUCTS, {
+    variables: { categoryID: currentCategory || null }, // Pass null when "All" is selected
+  });
+  
   
   useEffect(() => {
     if (data) {
@@ -38,19 +40,7 @@ function ProductList() {
   }, [data, loading, dispatch]);
 
   function filterProducts() {
-
-
     return state.products
-
-
-    if (!currentCategory) {
-      return state.products;
-
-    } else if (currentCategory) {
-      return state.products.filter(
-        (product) => product.category._id === currentCategory
-      );
-    }
   }
 
   function quickSort(array, order) {
