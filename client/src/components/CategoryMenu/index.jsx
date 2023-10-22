@@ -10,7 +10,7 @@ import { idbPromise } from '../../utils/helpers';
 import AuthService from '../../utils/auth';
 
 const isAdmin = AuthService.checkAdmin();
-console.log(isAdmin)
+
 
 function CategoryMenu() {
   const [state, dispatch] = useStoreContext();
@@ -64,9 +64,10 @@ function CategoryMenu() {
       <button onClick={() => { handleClick('') }}>
         All
       </button>
+
       {isAdmin && (
       <button>
-        LET ME IN
+        Admin testing
       </button>
     )}
     </div>

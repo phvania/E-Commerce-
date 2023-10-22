@@ -13,6 +13,9 @@ import {
 import { QUERY_PRODUCTS } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
+import AuthService from '../utils/auth';
+
+const isAdmin = AuthService.checkAdmin();
 
 function Detail() {
   const [state, dispatch] = useStoreContext();
@@ -93,17 +96,24 @@ function Detail() {
 
           <p>
             <strong>Price:</strong>${currentProduct.price}{' '}
-            <button onClick={addToCart}>Add to Cart</button>
-            <button
-              disabled={!cart.find((p) => p._id === currentProduct._id)}
-              onClick={removeFromCart}
-            >
-              Remove from Cart
-            </button>
+            {isAdmin ? (
+              <button>Edit</button>
+            ) : (
+              <>
+                <button onClick={addToCart}>Add to Cart</button>
+                <button
+                  disabled={!cart.find((p) => p._id === currentProduct._id)}
+                  onClick={removeFromCart}
+                >
+                  Remove from Cart
+                </button>
+              </>
+            )}
           </p>
 
+        <h4> {currentProduct.tags}</h4>
           <img
-            src={`/images/${currentProduct.image}`}
+            src={`${currentProduct.image}`}
             alt={currentProduct.name}
           />
         </div>
