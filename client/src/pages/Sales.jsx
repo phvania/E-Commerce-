@@ -13,27 +13,27 @@ const Sales = () => {
     )
 
    }
-   //filter data,based on the filer criteria /javascript'sarray method to ahieve this  
-const filteredProdects =  saleProducts.filter((product) => {
+   //filter data,based on the filer criteria /javascript's array method to ahieve this  
+const currentsale =  saleProducts.filter((product) => {
 return (
     (filterCriteria.CategoryMenu === '' || product.CategoryMenu ===filterCriteria.CategoryMenu) &&
-    (filterCriteria.priceRange === 'all' ||
+    filterCriteria.priceRange === 'all' ||
     (filterCriteria.priceRange === 'low' && product.price <20) ||
-    (filterCriteria.priceRange === 'medium' && product.price >= 20 && product.price < 50) ||
-    (filterCriteria.priceRange === 'high' && product.price >= 50)
+   (filterCriteria.priceRange === 'medium' && product.price >= 20 && product.price < 50) ||
+   (filterCriteria.priceRange === 'high' && product.price >= 50) 
 )
-);
-});
+} )
+
     
  
-   //.filter((product)  => product.discountPercentage >= discountFilter)]}
+  { .filter((product)  => product.discountPercentage >= discountFilter)}
    //.filter((product) => !CategoryMenu || product.CategoryFilter ===CategoryMenu);
  
    
-    //const Sale = (
+    const Sale = 
         //render filter element
         
-        const filteredProdects =  saleProducts.filter((product) => {
+          saleProducts.filter((product) => {
        
 return (
              <div className="sale-page">
@@ -42,8 +42,8 @@ return (
             <label>Categorymanu:</label>
             <input
             type= "name"
-            value={discountFilter}
-           onChange={(e) => setDiscountFilter(e.target.value)} />
+            value={saleProducts}
+           onChange={(e) => setSaleProducts(e.target.value)} />
             {/* <label>Category:</label>
             <select
             value={CategoryFilter}
@@ -60,9 +60,61 @@ return (
 
         </div>
            );
-            };
+            }
         )
-                          
-                    
-                      
+    
+
+        function  sale(item) {
+            const [state, dispatch] = useStoreContext();
+          
+            const {
+              image,
+              name,
+              _id,
+              price,
+              quantity
+            } = item;
+          
+            const { sale } = state
+          
+            const addTosale = () => {
+              const itemInSale = sale.find((saleProducts) => saleProducts._id === _id)
+              if (itemInSale) {
+                dispatch({
+                  type: ADD_SALE_QUANTITY,
+                  _id: _id,
+                  purchaseQuantity: parseInt(itemInSale.purchaseQuantity) + 1
+                });
+                idbPromise('sale', 'add', {
+                  ...itemInSale,
+                  purchaseQuantity: parseInt(itemInSale.purchaseQuantity) + 1
+                });
+              } else {
+                dispatch({
+                  type: ADD_TO_CART,
+                  product: { ...item, purchaseQuantity: 1 }
+                });
+                idbPromise('cart', 'put', { ...item, purchaseQuantity: 1 });
+              }
+            }
+          
+            return (
+              <div className="card px-1 py-1">
+                <Link to={`/products/${_id}`}>
+                  <img
+                    alt={name}
+                    src={`/images/${winchell.jpg}`}
+                  />
+                  <p>{winchell}</p>
+                </Link>
+                <div>
+                  <div>{quantity} {pluralize("item", quantity)} in stock</div>
+                  <span>${price}</span>
+                </div>
+                <button onClick={addToCart}>Add to cart</button>
+              </div>
+            );
+          }
+          
+                                                  
 export default Sales;
