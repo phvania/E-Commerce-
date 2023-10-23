@@ -1,5 +1,5 @@
 const db = require('./connection');
-const { User, Product, Category } = require('../models');
+const { User, Product, Category, Order } = require('../models');
 const cleanDB = require('./cleanDB');
 
 db.once('open', async () => {
@@ -30,8 +30,8 @@ db.once('open', async () => {
       quantity: 100,
       tags: ['best-seller', 'classic', 'sale'],
       sale: true,
-      dateAdded: '2023-10-18T16:20:06.532+00:00',
-      
+      dateAdded: '1697820525420',
+
     },
     {
       name: '1000 Black Umbrellas',
@@ -44,7 +44,7 @@ db.once('open', async () => {
       quantity: 100,
       tag: ['best-seller'],
       sale: true,
-      dateAdded: '2023-10-16T16:20:06.532+00:00',
+      dateAdded: '1697820525429',
     },
     {
       name: 'Winchell',
@@ -56,7 +56,7 @@ db.once('open', async () => {
       price: 15.99,
       quantity: 20,
       tags: ['sale'],
-      dateAdded: '2023-10-17T16:20:06.532+00:00',
+      dateAdded: '169782052542'
     },
     {
       name: 'The Last Skin',
@@ -80,22 +80,30 @@ db.once('open', async () => {
       quantity: 50,
       tags: []
     },
-  
+
   ]);
 
   console.log('products seeded');
-
+  
+  const orders = await Order.insertMany([
+    {
+      products: [products[0]._id, products[0]._id, products[1]._id],
+      shipped: true,
+    },
+    {
+      products: [products[0]._id],
+      shipped: true,
+    },
+    {
+      products: [products[2]._id, products[1]._id],
+    }
+  ])
   await User.create({
     firstName: 'Pamela',
     lastName: 'Washington',
     email: 'pamela@testmail.com',
     password: 'password12345',
-    orders: [
-      {
-        products: [products[0]._id, products[0]._id, products[1]._id],
-        shipped: true,
-      }
-    ],
+    orders: [orders[0]._id, orders[1]._id],
 
   });
 
@@ -104,11 +112,7 @@ db.once('open', async () => {
     lastName: 'Holt',
     email: 'eholt@testmail.com',
     password: 'password12345',
-    orders: [
-      {
-        products: [products[2]._id, products[1]._id],
-      }
-    ],
+    orders: [orders[2]._id],
   });
 
   await User.create({

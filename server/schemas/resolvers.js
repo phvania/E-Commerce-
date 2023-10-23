@@ -1,4 +1,5 @@
-const { User, Product, Category, Order } = require('../models');
+
+const { User, Product, Category, Order} = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 //stripe require a valid key
@@ -30,20 +31,35 @@ const resolvers = {
       return await Category.find();
     },
 
-    // products: async (parent, { category, name }) => {
-    //   const params = {};
+    allProducts: async () => {
+      try {
+        const products = await Product.find();
+        return products;
+      } catch (error) {
+        throw new Error('Error fetching products');
+      }
+    },
 
-    //   if (category) {
-    //     params.category = category;
-    //   }
+    products: async (parent, { categoryID }) => {
+      try {
+        if (!categoryID) {
 
-    //   if (name) {
-    //     params.name = {
-    //       $regex: name
-    //     };
-    //   }
-    //   return await Product.find(params).populate('category');
-    // },
+          return await Product.find();
+        }
+    
+        const category = await Category.findById(categoryID);
+    
+        if (!category) {
+          throw new Error('Category not found');
+        }
+    
+        return await Product.find({ category: categoryID });
+      } catch (error) {
+        throw new Error('Error fetching products by category');
+      }
+    },
+    
+    
 
     // get product by ID // no auth
 
@@ -69,23 +85,28 @@ const resolvers = {
 
     // view all orders // admin auth
     viewOrders: async (parent, { shipped, completed }, context) => {
+      // console.log(context)
+      // console.log(context.user, '<---------------')
+
       if (context.user.admin) {
         try {
-          const filter = {};
           if (shipped) {
-            filter.shipped = shipped;
-          }
-          if (completed) {
-            filter.completed = completed;
+            return await Order.find({ shipped: true })
+          } else if (completed) {
+            return await Order.find({ completed: true })
+          } else if (shipped && completed) {
+            return await Order.find({ shipped: true, completed: true })
+          } else {
+            return await Order.find()
           }
 
-          return await Order.find(filter)
         } catch (err) {
           throw err;
         }
-      } else {
-        throw AuthenticationError;
-      }
+      // } else {
+      //   throw AuthenticationError;
+      // }
+    }
     },
 
 
@@ -107,7 +128,7 @@ const resolvers = {
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
       await Order.create({ products: args.products.map(({ _id }) => _id) });
-      const line_items = []; const { products } = await order.populate('products');
+      const line_items = []; const { products } = await Order.populate('products');
 
       for (let i = 0; i < products.length; i++) {
         const product = await stripe.products.create({
@@ -174,13 +195,6 @@ const resolvers = {
       throw AuthenticationError;
     },
 
-    // update count of items in cart // no auth
-    updateCartProductCount: async (parent, { _id, quantity }) => {
-      const decrement = Math.abs(quantity) * -1;
-
-      return await Product.findByIdAndUpdate(_id, { $inc: { quantity: decrement } }, { new: true });
-    },
-
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
 
@@ -198,6 +212,84 @@ const resolvers = {
 
       return { token, user };
     },
+
+
+    //update shipped and completed boolean // admin  auth 
+    updateOrderShipped: async (parent, { _id, shipped }, context) => {
+      if (context.user.admin) {
+        try {
+          const updatedOrder = await Order.findByIdAndUpdate(_id, { shipped }, { new: true });
+
+          if (!updatedOrder) {
+            throw new Error('Order not found');
+          }
+
+          return updatedOrder;
+        } catch (error) {
+          throw new Error('Failed to update the order shipped status');
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+    updateOrderCompleted: async (parent, { _id, completed }, context) => {
+      if (context.user.admin) {
+        try {
+          const completedOrder = await Order.findByIdAndUpdate(_id, { completed }, { new: true });
+
+          if (!completedOrder) {
+            throw new Error('Order not found');
+          }
+
+          return completedOrder;
+        } catch (error) {
+          throw new Error('Failed to update the order completed status');
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+
+    // add product // admin auth
+    addProduct: async (parent, { name, author, description, image, price, quantity, category, tags, sale }, context) => {
+      if (context.user.admin) {
+        try {
+          return await Product.create({
+            name,
+            author,
+            description,
+            image,
+            price,
+            category,
+            tags,
+            sale,
+          })
+        } catch (err) {
+          throw err;
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+
+    // delete product // admin auth
+    deleteProduct: async (parent, { _id }, context) => {
+      if (context.user.admin) {
+        try {
+          const deletedProduct = await Product.findByIdAndRemove(_id)
+          if (!deletedProduct) {
+            throw new Error('Product not found');
+          }
+          return deletedProduct;
+        } catch (err) {
+          throw err;
+        }
+      } else {
+        throw AuthenticationError
+      }
+    },
+
+
     // update product info // admin auth
     updateProduct: async (parent, { _id, quantity, price, sale }, context) => {
       if (context.user.admin) {
