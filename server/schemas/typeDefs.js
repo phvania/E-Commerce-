@@ -78,7 +78,7 @@ const typeDefs = gql `
     updateOrderCompleted(_id: ID!, completed: Boolean!): Order
     addProduct(name: String, author: [String], description: [String], image: [String], price: Float, quantity: Int, category: String, tags: [String], sale: Boolean): Product
     deleteProduct(_id: ID!): Product
-    updateProduct(_id: ID!, quantity: Int, price: Float, sale: Boolean): Product
+    updateProduct(_id: ID!, name: String, description: String, quantity: Int, price: Float, sale: Boolean): Product
     login(email: String!, password: String!): Auth
     addTag(tagName: String!, productId: ID!):Product
     deleteTag(tagName: String!, productId: ID!): Product

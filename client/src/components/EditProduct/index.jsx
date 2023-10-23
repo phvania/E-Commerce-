@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-
+import { useMutation } from '@apollo/client';
+import { UPDATE_PRODUCT_DETAILS } from '../../utils/mutations';
 function EditProductDetails({ currentProduct }) {
-  // State variables to store edited values
+  
   const [editedName, setEditedName] = useState(currentProduct.name);
   const [editedDescription, setEditedDescription] = useState(currentProduct.description);
   const [editedPrice, setEditedPrice] = useState(currentProduct.price);
 
-  // Handle input changes and update state
+  const [updateProduct] = useMutation(UPDATE_PRODUCT_DETAILS);
+ 
   const handleNameChange = (e) => {
     setEditedName(e.target.value);
   };
@@ -18,6 +20,25 @@ function EditProductDetails({ currentProduct }) {
   const handlePriceChange = (e) => {
     setEditedPrice(e.target.value);
   };
+
+  const handleSaveClick = () => {
+
+    updateProduct({
+      variables: {
+        id: currentProduct._id,
+
+        name: editedName,
+        description: editedDescription,
+        price: parseFloat(editedPrice),
+      },
+    })
+      .then((response) => {
+        console.log('Product updated:', response);
+      })
+      .catch((error) => {
+        console.error('Update failed:', error);
+      });
+  }
 
   return (
     <div>
@@ -47,6 +68,8 @@ function EditProductDetails({ currentProduct }) {
           onChange={handlePriceChange}
         />
       </div>
+
+      <button onClick={handleSaveClick}>Save Product Details</button>
     </div>
   );
 }
