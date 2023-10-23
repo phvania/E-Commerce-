@@ -1,6 +1,4 @@
-
 import { useStoreContext } from '../../utils/GlobalState';
-
 import { FILTER_SORT_PRODUCTS } from '../../utils/actions';
 
 // import {
@@ -10,7 +8,7 @@ import { FILTER_SORT_PRODUCTS } from '../../utils/actions';
 function SearchMenu() {
     const [state, dispatch] = useStoreContext();
     const categoryList = [
-        
+
     ];
 
     // on submit update state vars for filter, sort, min, max
@@ -50,11 +48,8 @@ function SearchMenu() {
 
     }
 
-    // updates the state.sort to the specified string
-
     return (
         <div className="container">
-            {/* need a handle form submit function */}
             <form>
                 <p>Filter Options</p>
 

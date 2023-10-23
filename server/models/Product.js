@@ -44,7 +44,7 @@ const productSchema = new Schema({
   },
   dateAdded: {
     type: String,
-    default: Date.now
+    default: '0'
   }
 });
 

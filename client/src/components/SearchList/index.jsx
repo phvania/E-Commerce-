@@ -1,7 +1,7 @@
 // import { useEffect } from 'react';
 import ProductItem from '../ProductItem';
 import { useStoreContext } from '../../utils/GlobalState';
-import { FILTER_SORT_PRODUCTS } from '../../utils/actions';
+// import { FILTER_SORT_PRODUCTS } from '../../utils/actions';
 import { useQuery } from '@apollo/client';
 // change this to filter sort querry
 import { QUERY_FILTER_SORT_PRODUCTS } from '../../utils/queries';
@@ -9,7 +9,7 @@ import { QUERY_FILTER_SORT_PRODUCTS } from '../../utils/queries';
 import spinner from '../../assets/spinner.gif';
 
 
-function ProductList() {
+function SearchList() {
   const [state, dispatch] = useStoreContext();
 
   const { min, max, filter, sort } = state;
@@ -19,8 +19,9 @@ function ProductList() {
     variables: { min: min, max: max, filter: filter, sort: sort},
   });
   console.log(data);
-  const products = data.products || [];
-  
+
+//   const products = data.products || [];
+const products = data?.products || [];
 
 
 
@@ -41,11 +42,11 @@ function ProductList() {
           ))}
         </div>
       ) : (
-        <h3>You haven't added any products yet!</h3>
+        <h3>You have not added any products yet!</h3>
       )}
       {loading ? <img src={spinner} alt="loading" /> : null}
     </div>
   );
 }
 
-export default ProductList;
+export default SearchList;

@@ -1,5 +1,5 @@
 
-const { User, Product, Category, Order} = require('../models');
+const { User, Product, Category, Order } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 //stripe require a valid key
@@ -47,20 +47,20 @@ const resolvers = {
 
           return await Product.find();
         }
-    
+
         const category = await Category.findById(categoryID);
-    
+
         if (!category) {
           throw new Error('Category not found');
         }
-    
+
         return await Product.find({ category: categoryID });
       } catch (error) {
         throw new Error('Error fetching products by category');
       }
     },
-    
-    
+
+
 
     // get product by ID // no auth
 
@@ -104,10 +104,10 @@ const resolvers = {
         } catch (err) {
           throw err;
         }
-      // } else {
-      //   throw AuthenticationError;
-      // }
-    }
+        // } else {
+        //   throw AuthenticationError;
+        // }
+      }
     },
 
 
@@ -170,47 +170,81 @@ const resolvers = {
       let products = [];
       // inc
       // filter, min, max, sort
-      if(args.filter == 'price') {
+      let sort = args.sort
+      let dir;
+      if (args.filter == 'price') {
+        let litt = `price`
+        if (args.sort == 'asc' || args.sort == 'desc'){
+          dir = args.sort;
+        } else if (args.sort == 'new'){
+          litt = 'dateAdded';
+          dir = 'asc';
+        } else if (args.sort == 'old'){
+          litt = 'dateAdded';
+          dir = 'desc'
+        }
         // find all products in price range
         products = await Product.find({
           $and: [
-          {price : { $gte :  args.min}},
-          {price : { $lte :  args.max}}]
-          });
+            { price: { $gte: args.min } },
+            { price: { $lte: args.max } }]
+        }).sort({[`${litt}`]: dir})
 
-      } else  {
+      } else {
+        let litt = `price`
+        if (args.filter == 'price') {
+          let litt = `price`
+          if (args.sort == 'asc' || args.sort == 'desc'){
+            dir = args.sort;
+          } else if (args.sort == 'new'){
+            litt = 'dateAdded';
+            dir = 'asc';
+          } else if (args.sort == 'old'){
+            litt = 'dateAdded';
+            dir = 'desc'
+          }
+        }
         // find all products with matching category
-        products = await Product.find({category: args.filter})
-
+        products = await Product.find({ category: args.filter }).sort({[`${litt}`]: dir})
       }
-
-      // escape case for no sorting
-      if (args.sort == '') {
-        return products;
-      }
-      products = quickSort(products, args.sort);
-      // return array of products
+      
       return products;
 
+      // escape case for no sorting
+      // if (args.sort == '' || args.sort == null) {
+      //   return products;
+      // }
+      // products.sort()
+
+      // console.log(products)
+      // products = bubbleSort(products, args.sort);
+      // console.log('Post Sort')
+      // console.log(products)
+      // return array of products
+
       // sort the product array
+      // it is removing objects form the incoming array and not returning them all
       function quickSort(array, order) {
         // sorts in ascending order
-        // escape case for small arrays, or no sorting order
-        if (array.length <= 1 || !order) {
+        // escape case for small arrays
+        if (array.length <= 1) {
           return array;
         }
         const pivot = array.splice(Math.floor(Math.random() * array.length), 1);
+        // const pivot = array.pop();
+        console.log(pivot[0].price)
         const left = [];
         const right = [];
         array.forEach((el) => {
           if (order == 'asc') {
-            if (el.price <= pivot.price) {
+            // console.log(pivot)
+            if (el.price <= pivot[0].price) {
               left.push(el);
             } else {
               right.push(el);
             }
           } else if (order == 'desc') {
-            if (el.price > pivot.price) {
+            if (el.price > pivot[0].price) {
               left.push(el);
             } else {
               right.push(el);
@@ -218,22 +252,67 @@ const resolvers = {
             // sort by date
           } else if (order == 'new') {
             // sort asc
-            if (parseInt(el.dateAdded) <= parseInt(pivot.dateAdded)) {
+            if (parseInt(el.dateAdded) <= parseInt(pivot[0].dateAdded)) {
               left.push(el);
             } else {
               right.push(el);
             }
           } else if (order == 'old') {
             // sort desc
-            if (parseInt(el.dateAdded) > parseInt(pivot.dateAdded)) {
+            if (parseInt(el.dateAdded) > parseInt(pivot[0].dateAdded)) {
               left.push(el);
             } else {
               right.push(el);
             }
           }
         });
-        return quickSort(left).concat(pivot, quickSort(right));
+        // console.log('Left', left)
+        // console.log('pivot', pivot)
+        // console.log('right', right)
+        return quickSort(left).concat(pivot[0], quickSort(right));
       }
+
+      const bubbleSort = (array, order) => {
+        let sorted = false;
+        while (!sorted) {
+          sorted = true;
+          for (let i = 0; i < array.length; i++) {
+            if (order == 'asc') {
+              if (array[i].price > array[i + 1].price) {
+                const tmp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = tmp;
+                sorted = false;
+              }
+            } else if (order == 'desc'){
+              if (array[i].price < array[i + 1].price) {
+                const tmp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = tmp;
+                sorted = false;
+              }
+
+            } else if (order == 'new') {
+              if (parseInt(array[i].dateAdded) > parseInt(array[i + 1].dateAdded)) {
+                const tmp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = tmp;
+                sorted = false;
+              }
+            } else if (order == 'old') {
+              if (parseInt(array[i].dateAdded) < parseInt(array[i + 1].dateAdded)) {
+                const tmp = array[i];
+                array[i] = array[i + 1];
+                array[i + 1] = tmp;
+                sorted = false;
+              }              
+            }
+          }
+        }
+        // after the `while` loop has completed, we return the sorted array
+        return array;
+      };
+
 
     },
   },
