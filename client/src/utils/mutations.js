@@ -49,3 +49,23 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const UPDATE_PRODUCT_DETAILS = gql`
+  mutation updateProduct(
+    $id: ID!, $name: String, $description: String, $quantity: Int, $price: Float, $sale: Boolean) {
+      updateProduct(_id: $id, name: $name, quantity: $quantity, description: $description, price: $price, sale: $sale) {
+        _id
+        name
+        author
+        description
+        image
+        quantity
+        price
+        category
+        tags
+        sale
+        dateAdded
+      }
+  }
+`;
+

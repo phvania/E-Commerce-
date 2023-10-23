@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 
 import Cart from '../components/Cart';
+import EditProductDetails from '../components/EditProduct'
 import { useStoreContext } from '../utils/GlobalState';
 import {
   REMOVE_FROM_CART,
@@ -84,38 +85,59 @@ function Detail() {
     idbPromise('cart', 'delete', { ...currentProduct });
   };
 
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const openEditModal = () => {
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+  };
+
   return (
     <>
       {currentProduct && cart ? (
         <div className="container my-1">
           <Link to="/">← Back to Products</Link>
 
-          <h2>{currentProduct.name}</h2>
+          <div style={{ display: 'flex' }}>
+            <div style={{ flex: 1 }}>
+              <img
+                src={`${currentProduct.image}`}
+                alt={currentProduct.name}
+                style={{ maxWidth: '100%', height: 'auto' }}
+              />
+            </div>
 
-          <p>{currentProduct.description}</p>
-
-          <p>
-            <strong>Price:</strong>${currentProduct.price}{' '}
-            {isAdmin ? (
-              <button>Edit</button>
-            ) : (
-              <>
-                <button onClick={addToCart}>Add to Cart</button>
-                <button
-                  disabled={!cart.find((p) => p._id === currentProduct._id)}
-                  onClick={removeFromCart}
-                >
-                  Remove from Cart
-                </button>
-              </>
-            )}
-          </p>
-
-        <h4> {currentProduct.tags}</h4>
-          <img
-            src={`${currentProduct.image}`}
-            alt={currentProduct.name}
-          />
+            <div style={{ flex: 1, marginLeft: '20px' }}>
+              <h2>{currentProduct.name}</h2>
+              <p>{currentProduct.description}</p>
+              <h4> {currentProduct.tags}</h4>
+              <strong>Price:</strong>${currentProduct.price}{' '}
+              {isAdmin ? (
+                <>
+                  <button onClick={openEditModal}>Edit Product Details</button>
+                  {isEditModalOpen && (
+                    <EditProductDetails
+                      currentProduct={currentProduct}
+                      closeEditModal={closeEditModal}
+                    />
+                  )}
+                </>
+              ) : (
+                <>
+                  <button onClick={addToCart}>Add to Cart</button>
+                  <button
+                    disabled={!cart.find((p) => p._id === currentProduct._id)}
+                    onClick={removeFromCart}
+                  >
+                    Remove from Cart
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       ) : null}
       {loading ? <img src={spinner} alt="loading" /> : null}

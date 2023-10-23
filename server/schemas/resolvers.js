@@ -291,7 +291,8 @@ const resolvers = {
 
 
     // update product info // admin auth
-    updateProduct: async (parent, { _id, quantity, price, sale }, context) => {
+    updateProduct: async (parent, { _id, name, quantity, description, price, sale }, context) => {
+      console.log('HELLO')
       if (context.user.admin) {
         try {
           const updatedProduct = await Product.findByIdAndUpdate(
@@ -299,6 +300,8 @@ const resolvers = {
             {
               $set: {
                 quantity: quantity !== undefined ? quantity : null,
+                name: name !== undefined ? name : null,
+                description: description !== undefined ? description : null,
                 price: price !== undefined ? price : null,
                 sale: sale !== undefined ? sale : null,
               },
