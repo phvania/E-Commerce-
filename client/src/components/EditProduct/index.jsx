@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPDATE_PRODUCT_DETAILS } from '../../utils/mutations';
-function EditProductDetails({ currentProduct, refreshPage }) {
+import { Modal, Button, Form } from 'react-bootstrap';
+
+function EditProductDetails({ currentProduct, refreshPage, closeEditModal }) {
   
   const [editedName, setEditedName] = useState(currentProduct.name);
   const [editedDescription, setEditedDescription] = useState(currentProduct.description);
@@ -42,36 +44,44 @@ function EditProductDetails({ currentProduct, refreshPage }) {
   }
 
   return (
-    <div>
-      <div>
-        <label htmlFor="editedName">Name:</label>
-        <input
-          type="text"
-          id="editedName"
-          value={editedName}
-          onChange={handleNameChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="editedDescription">Description:</label>
-        <textarea
-          id="editedDescription"
-          value={editedDescription}
-          onChange={handleDescriptionChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="editedPrice">Price:</label>
-        <input
-          type="number"
-          id="editedPrice"
-          value={editedPrice}
-          onChange={handlePriceChange}
-        />
-      </div>
-
-      <button onClick={handleSaveClick}>Save Product Details</button>
-    </div>
+    <Modal show={true}>
+      <Modal.Header closeButton onClick={closeEditModal}>
+        <Modal.Title>Edit Product Details</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <Form>
+          <Form.Group controlId="editedName">
+            <Form.Label>Name:</Form.Label>
+            <Form.Control
+              type="text"
+              value={editedName}
+              onChange={handleNameChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="editedDescription">
+            <Form.Label>Description:</Form.Label>
+            <Form.Control
+              as="textarea"
+              value={editedDescription}
+              onChange={handleDescriptionChange}
+            />
+          </Form.Group>
+          <Form.Group controlId="editedPrice">
+            <Form.Label>Price:</Form.Label>
+            <Form.Control
+              type="number"
+              value={editedPrice}
+              onChange={handlePriceChange}
+            />
+          </Form.Group>
+        </Form>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="primary" onClick={handleSaveClick}>
+          Save Changes
+        </Button>
+      </Modal.Footer>
+    </Modal>
   );
 }
 
