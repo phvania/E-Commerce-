@@ -1,5 +1,5 @@
 // import CategoryMenu from "../components/CategoryMenu";
-import ProductList from "../components/ProductList";
+import ProductItem from "../components/ProductItem";
 // import filterCriteria from  "../components/models";
 // import saleProducts from "../components/CategoryMenu"; 
 
@@ -9,41 +9,39 @@ import { useQuery } from '@apollo/client';
 import { QUERY_PRODUCTS } from '../utils/queries';
 
 // import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 const Sales = () => {
-
+    console.log('hello')
     const [state, dispatch] = useStoreContext();
 
     const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-    useEffect(() => {
-        if (data) {
-            dispatch({
-                type: UPDATE_PRODUCTS,
-                products: data.products,
-            });
-             console.log(data)
-        //     data.products.forEach((product) => {
-        //         idbPromise('products', 'put', product);
-        //     });
-        // } else if (!loading) {
-        //     idbPromise('products', 'get').then((products) => {
-        //         dispatch({
-        //             type: UPDATE_PRODUCTS,
-        //             products: products,
-        //         });
-        //     });
-        }
-    }, [data, loading, dispatch]);
-
+    // setUpdatedProducts(updatedFilteredProducts);
+    //     }, [filterCriteria, saleProducts]);
+    const products = data?.products || []
+    console.log(products)
     return (
-        <div>
-            <h3> current Sales: </h3>
-            <p></p>
-            <h3>All Sales Products:</h3>
-            {/* const { `Image, ProductItem price, quentity`} = ProductItem */}
-            <ProductList />
+        <div className="sale-page">
+            <h3> Current Sales: </h3>
+            <h3>Books on 30% off:</h3>
+            
+            <div className="product-list">
+                
+                 {products.map((product) => {
+                    if (product.sale == true) {
+                     return ( <ProductItem  key={product._id}
+                        _id={product._id}
+                        image={product.image}
+                        name={product.name}
+                        price={product.price}
+                        quantity={product.quantity}
+                         />)
+                    }
+                })} 
+                
+                
+            </div>
         </div>
     )
 
