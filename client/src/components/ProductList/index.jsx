@@ -7,15 +7,16 @@ import { QUERY_PRODUCTS } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
 
+
 function ProductList() {
   const [state, dispatch] = useStoreContext();
 
-  // const { currentCategory } = state;
-
-  const currentCategory = '6532af6dbc3eaef92634935b'
-  const { loading, data } = useQuery(QUERY_PRODUCTS, {variables: {categoryID: currentCategory}});
-
-  console.log(data);
+  const { currentCategory } = state;
+  const { loading, data } = useQuery(QUERY_PRODUCTS, {
+    variables: { categoryID: currentCategory || null }, // Pass null when "All" is selected
+  });
+  
+  
   useEffect(() => {
     if (data) {
       dispatch({
@@ -25,6 +26,9 @@ function ProductList() {
       data.products.forEach((product) => {
         idbPromise('products', 'put', product);
       });
+
+      console.log(data)
+      console.log(data.products)
     } else if (!loading) {
       idbPromise('products', 'get').then((products) => {
         dispatch({
@@ -36,15 +40,7 @@ function ProductList() {
   }, [data, loading, dispatch]);
 
   function filterProducts() {
-
-    if (!currentCategory) {
-      return state.products;
-
-    } else if (currentCategory) {
-      return state.products.filter(
-        (product) => product.category._id === currentCategory
-      );
-    }
+    return state.products
   }
 
   function quickSort(array, order) {
