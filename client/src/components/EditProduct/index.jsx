@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPDATE_PRODUCT_DETAILS } from '../../utils/mutations';
-function EditProductDetails({ currentProduct }) {
+function EditProductDetails({ currentProduct, refreshPage }) {
   
   const [editedName, setEditedName] = useState(currentProduct.name);
   const [editedDescription, setEditedDescription] = useState(currentProduct.description);
@@ -34,6 +34,7 @@ function EditProductDetails({ currentProduct }) {
     })
       .then((response) => {
         console.log('Product updated:', response);
+        refreshPage();
       })
       .catch((error) => {
         console.error('Update failed:', error);

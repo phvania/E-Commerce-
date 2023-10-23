@@ -95,6 +95,10 @@ function Detail() {
     setIsEditModalOpen(false);
   };
 
+  const refreshPage = () => {
+    window.location.reload();
+  }
+
   return (
     <>
       {currentProduct && cart ? (
@@ -122,6 +126,7 @@ function Detail() {
                     <EditProductDetails
                       currentProduct={currentProduct}
                       closeEditModal={closeEditModal}
+                      refreshPage={refreshPage} 
                     />
                   )}
                 </>
