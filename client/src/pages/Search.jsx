@@ -1,4 +1,4 @@
-import ProductList from "../components/ProductList";
+import SearchList from "../components/SearchList";
 import SearchMenu from '../components/SearchMenu'
 
 const Search = () => {
@@ -6,7 +6,7 @@ const Search = () => {
         <div>
             <h3>Search for a Product</h3>
             <SearchMenu />
-            <ProductList />
+            <SearchList />
         </div>
     )
 

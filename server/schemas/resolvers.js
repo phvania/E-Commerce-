@@ -5,6 +5,7 @@ const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 //stripe require a valid key
 const { AuthenticationError } = require('apollo-server-express')
 
+
 const resolvers = {
   Query: {
     // get all sale items // no auth
@@ -162,6 +163,78 @@ const resolvers = {
       });
 
       return { session: session.id };
+    },
+
+    // filter & sort products
+    filterProducts: async (parent, args, context) => {
+      let products = [];
+      // inc
+      // filter, min, max, sort
+      if(args.filter == 'price') {
+        // find all products in price range
+        products = await Product.find({
+          $and: [
+          {price : { $gte :  args.min}},
+          {price : { $lte :  args.max}}]
+          });
+
+      } else  {
+        // find all products with matching category
+        products = await Product.find({category: args.filter})
+
+      }
+
+      // escape case for no sorting
+      if (args.sort == '') {
+        return products;
+      }
+      products = quickSort(products, args.sort);
+      // return array of products
+      return products;
+
+      // sort the product array
+      function quickSort(array, order) {
+        // sorts in ascending order
+        // escape case for small arrays, or no sorting order
+        if (array.length <= 1 || !order) {
+          return array;
+        }
+        const pivot = array.splice(Math.floor(Math.random() * array.length), 1);
+        const left = [];
+        const right = [];
+        array.forEach((el) => {
+          if (order == 'asc') {
+            if (el.price <= pivot.price) {
+              left.push(el);
+            } else {
+              right.push(el);
+            }
+          } else if (order == 'desc') {
+            if (el.price > pivot.price) {
+              left.push(el);
+            } else {
+              right.push(el);
+            }
+            // sort by date
+          } else if (order == 'new') {
+            // sort asc
+            if (parseInt(el.dateAdded) <= parseInt(pivot.dateAdded)) {
+              left.push(el);
+            } else {
+              right.push(el);
+            }
+          } else if (order == 'old') {
+            // sort desc
+            if (parseInt(el.dateAdded) > parseInt(pivot.dateAdded)) {
+              left.push(el);
+            } else {
+              right.push(el);
+            }
+          }
+        });
+        return quickSort(left).concat(pivot, quickSort(right));
+      }
+
     },
   },
 

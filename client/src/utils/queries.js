@@ -19,7 +19,9 @@ export const QUERY_PRODUCTS = gql`
 `;
 
 
+export const QUERY_FILTER_SORT_PRODUCTS = gql`
 
+`;
 
 
 

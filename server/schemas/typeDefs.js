@@ -68,6 +68,8 @@ const typeDefs = gql `
     viewOrders(shipped: Boolean, completed: Boolean): [Order]
     order(_id: ID!): Order
     checkout(products: [ProductInput]): Checkout
+    filterProducts(filter: String, sort: String, min: Int, max: Int): [Product]
+    # sortProducts(products: [Product], sort: String!, min: Int, max: Int): [Product]
   }
 
   type Mutation {
