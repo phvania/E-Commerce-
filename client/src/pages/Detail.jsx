@@ -4,6 +4,7 @@ import { useQuery } from '@apollo/client';
 
 import Cart from '../components/Cart';
 import EditProductDetails from '../components/EditProduct'
+import DeleteConfirmation from '../components/DeleteProduct';
 import { useStoreContext } from '../utils/GlobalState';
 import {
   REMOVE_FROM_CART,
@@ -15,6 +16,8 @@ import { QUERY_PRODUCTS } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import AuthService from '../utils/auth';
+import { useMutation } from '@apollo/client';
+import { DELETE_PRODUCT } from '../utils/mutations';
 
 const isAdmin = AuthService.checkAdmin();
 
@@ -89,14 +92,40 @@ function Detail() {
 
   const openEditModal = () => {
     setIsEditModalOpen(true);
+
   };
 
   const closeEditModal = () => {
     setIsEditModalOpen(false);
   };
 
+  const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false)
+
+  const openDeleteConfirmation = () => {
+    setIsDeleteConfirmationOpen(true);
+
+  };
+
+  const closeDeleteConfirmation = () => {
+    setIsDeleteConfirmationOpen(false);
+  };
+
   const refreshPage = () => {
     window.location.reload();
+  }
+  const [deleteProduct] = useMutation(DELETE_PRODUCT);
+  const handleDeleteProduct = () => {
+      deleteProduct({
+          variables: {
+              id: currentProduct._id
+          }
+      }) .then((response) => {
+          console.log('Product deleted:', response);
+          window.location.href = '/';
+      })
+      .catch((error) => {
+          console.error('delete failed:', error);
+      });
   }
 
   return (
@@ -117,7 +146,6 @@ function Detail() {
             <div style={{ flex: 1, marginLeft: '20px' }}>
               <h2>{currentProduct.name}</h2>
               <p>{currentProduct.description}</p>
-              <h4> {currentProduct.tags}</h4>
               <strong>Price:</strong>${currentProduct.price}{' '}
               {isAdmin ? (
                 <>
@@ -126,7 +154,15 @@ function Detail() {
                     <EditProductDetails
                       currentProduct={currentProduct}
                       closeEditModal={closeEditModal}
-                      refreshPage={refreshPage} 
+                      refreshPage={refreshPage}
+                    />
+                  )}
+                  <button onClick={openDeleteConfirmation}>Delete Product</button>
+                  {isDeleteConfirmationOpen && (
+                    <DeleteConfirmation
+                      currentProduct={currentProduct}
+                      closeDeleteConfirmation={closeDeleteConfirmation}
+                      handleDeleteProduct={handleDeleteProduct}
                     />
                   )}
                 </>
