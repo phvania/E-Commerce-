@@ -2,6 +2,7 @@
 
 ## E-Commerce- Application ##
 
+hi
 Project 3 by: Riley Song, Priti, and Max Walent
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
