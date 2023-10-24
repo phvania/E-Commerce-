@@ -70,12 +70,17 @@ const resolvers = {
     // get user by id // user auth
     user: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
+        const user = await User.findById(context.user._id)
+        .populate({
+          path: 'orders',
+          populate: {
+            path: 'products',
+            model: 'Product' 
+          }
         });
 
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+        user.orders
+        //.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
         return user;
       }

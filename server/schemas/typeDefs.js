@@ -23,7 +23,7 @@ const typeDefs = gql `
   type Order {
     _id: ID
     purchaseDate: String
-    products: [ID]
+    products: [Product]
     shipped: Boolean
     completed: Boolean
   }
@@ -33,7 +33,7 @@ const typeDefs = gql `
     firstName: String!
     lastName: String!
     email: String!
-    orders: [ID]
+    orders: [Order]
     password: String!
     admin: Boolean
   }
