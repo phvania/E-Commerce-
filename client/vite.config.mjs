@@ -15,8 +15,8 @@ export default defineConfig({
       }
     }
   },
-  test: {
-    globals: true,
-    environment: 'happy-dom'
-  }
+  // test: {
+  //   globals: true,
+  //   environment: 'happy-dom'
+  // }
 })

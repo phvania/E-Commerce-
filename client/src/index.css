@@ -18,6 +18,9 @@ body {
   min-height: 100%;
 }
 
+
+
+
 body {
   margin: 0;
   padding: 0;
@@ -26,6 +29,7 @@ body {
   line-height: 1.5;
   font-size: 16px;
   color: var(--dark);
+  background-color: aquamarine !important; 
 }
 
 h1,
@@ -46,10 +50,12 @@ h1 {
 
 h2 {
   font-size: 2rem;
+  text-align: center;
 }
 
 h3 {
   font-size: 1.75rem;
+  color: #B12704;
 }
 
 h4 {
@@ -107,12 +113,18 @@ button[disabled] {
   cursor: default;
   opacity: .8;
 }
+h2 button {
+  word-spacing: 10px;
+}
 
   
 
 
 img {
   max-width: 100%;
+  padding-left: 30%;
+  padding-bottom: -20px;
+  
 }
 
 span[role="img"] {
@@ -158,12 +170,15 @@ input:focus {
 }
 
 .mx-1 {
-  margin-right: var(--spacing-one);
-  margin-left: var(--spacing-one);
+  margin-right: var(--spacing-two);
+  margin-left: var(--spacing-two);
+  justify-content: flex-end;
+  display: flex;
+
 }
 
 .mx-2 {
-  margin-right: var(--spacing-two);
+  margin-right: var(--spacing-one);
   margin-left: var(--spacing-two);
 }
 
@@ -200,6 +215,7 @@ input:focus {
 .card {
   width: 25%;
   text-align: center;
+  
 }
 
 .error-text {
