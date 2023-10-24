@@ -11,7 +11,6 @@ const productSchema = new Schema({
   },
   author: [{
     type: String,
-    required: true
   }],
   description: {
     type: String
@@ -32,15 +31,16 @@ const productSchema = new Schema({
   category: {
     type: Schema.Types.ObjectId,
     ref: 'Category',
-    required: true
+    required: false
   },
   tags: [{
     type: String,
-    required: true
+    required: false,
+    trim: true
   }],
   sale: {
     type: Boolean,
-    deault: false
+    default: false
   },
   dateAdded: {
     type: String,
