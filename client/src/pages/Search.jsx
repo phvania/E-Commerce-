@@ -1,11 +1,13 @@
 import SearchList from "../components/SearchList";
 import SearchMenu from '../components/SearchMenu'
+import {useState} from 'react'
 
 const Search = () => {
+    let [doSearch, setDoSearch] = useState(false)
     return (
         <div>
             <h3>Search for a Product</h3>
-            <SearchMenu />
+            <SearchMenu triggerSearch={setDoSearch}/>
             <SearchList />
         </div>
     )

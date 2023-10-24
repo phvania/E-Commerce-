@@ -5,7 +5,7 @@ import { FILTER_SORT_PRODUCTS } from '../../utils/actions';
 //     UPDATE_SORT_OPTION,
 // } from '../../utils/actions';
 
-function SearchMenu() {
+function SearchMenu({triggerSearch}) {
     const [state, dispatch] = useStoreContext();
     const categoryList = [
         'Biography',
@@ -16,11 +16,11 @@ function SearchMenu() {
     ];
 
     // on submit update state vars for filter, sort, min, max
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
         // filter options: price range, category
         // sale, recomended ???
-        console.log(e.target.category.value)
+        // console.log(e.target.category.value)
         // sort options: price, newest/oldest
         let filterMethod = '';
         if (e.target.category.value != '' && categoryList.includes(e.target.category.value)) {
@@ -42,15 +42,17 @@ function SearchMenu() {
         } else if (e.target.old.checked) {
             sortMethod = 'old';
         }
-        console.log('about to dispatch')
-        dispatch({
+        // console.log('about to dispatch')
+        // console.log(filterMethod, sortMethod, e.target.minPrice.value, e.target.maxPrice.value)
+        await dispatch({
             type: FILTER_SORT_PRODUCTS,
             filter: filterMethod,
             sort: sortMethod,
             min: e.target.minPrice.value,
             max: e.target.maxPrice.value,
         })
-        console.log(state)
+        triggerSearch(true)
+        // console.log(state)
 
     }
 

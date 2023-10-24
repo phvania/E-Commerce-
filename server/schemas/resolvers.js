@@ -34,7 +34,7 @@ const resolvers = {
 
     allProducts: async () => {
       try {
-        const products = await Product.find();
+        const products = await Product.find().populate('category');
         return products;
       } catch (error) {
         throw new Error('Error fetching products');
@@ -170,7 +170,6 @@ const resolvers = {
       let products = [];
       // inc
       // filter, min, max, sort
-      let sort = args.sort
       let dir;
       if (args.filter == 'price') {
         let litt = `price`
@@ -193,7 +192,7 @@ const resolvers = {
       } else {
         let litt = `price`
         if (args.filter == 'price') {
-          let litt = `price`
+          litt = `price`
           if (args.sort == 'asc' || args.sort == 'desc'){
             dir = args.sort;
           } else if (args.sort == 'new'){
@@ -205,7 +204,10 @@ const resolvers = {
           }
         }
         // find all products with matching category
-        products = await Product.find({ category: args.filter }).sort({[`${litt}`]: dir})
+        let categories = await Category.find({name: args.filter})
+        // categories[0]._id
+        console.log(categories[0]._id.toString())
+        products = await Product.find({ category: {_id: categories[0]._id.toString()} }).populate('category').sort({[`${litt}`]: dir})
       }
       
       return products;

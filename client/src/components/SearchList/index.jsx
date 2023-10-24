@@ -7,21 +7,26 @@ import { useQuery } from '@apollo/client';
 import { QUERY_FILTER_SORT_PRODUCTS } from '../../utils/queries';
 // import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
+import Search from '../../pages/Search';
 
 
 function SearchList() {
   const [state, dispatch] = useStoreContext();
-
+    console.log('inside search list')
   const { min, max, filter, sort } = state;
+//   console.log('==========')
+//   console.log(min, max, filter, sort)
 
     // use new querry with new state args
   const { loading, data } = useQuery(QUERY_FILTER_SORT_PRODUCTS, {
     variables: { min: min, max: max, filter: filter, sort: sort},
   });
+  console.log('data')
   console.log(data);
 
 //   const products = data.products || [];
 const products = data?.products || [];
+console.log(products)
 
 
 

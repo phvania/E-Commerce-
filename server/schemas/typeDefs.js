@@ -14,7 +14,7 @@ const typeDefs = gql `
     image: String
     quantity: Int
     price: Float
-    category: ID
+    category: Category
     tags: [String]
     sale: Boolean
     dateAdded: String
