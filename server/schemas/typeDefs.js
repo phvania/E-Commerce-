@@ -13,8 +13,8 @@ const typeDefs = gql `
     description: String
     image: String
     quantity: Int
-    price: Float!
-    category: ID
+    price: Float
+    category: Category
     tags: [String]
     sale: Boolean
     dateAdded: String
@@ -23,7 +23,7 @@ const typeDefs = gql `
   type Order {
     _id: ID
     purchaseDate: String
-    products: [ID]
+    products: [Product]
     shipped: Boolean
     completed: Boolean
   }
@@ -33,7 +33,7 @@ const typeDefs = gql `
     firstName: String!
     lastName: String!
     email: String!
-    orders: [ID]
+    orders: [Order]
     password: String!
     admin: Boolean
   }
@@ -68,6 +68,8 @@ const typeDefs = gql `
     viewOrders(shipped: Boolean, completed: Boolean): [Order]
     order(_id: ID!): Order
     checkout(products: [ProductInput]): Checkout
+    filterProducts(filter: String, sort: String, min: Int, max: Int): [Product]
+    # sortProducts(products: [Product], sort: String!, min: Int, max: Int): [Product]
   }
 
   type Mutation {

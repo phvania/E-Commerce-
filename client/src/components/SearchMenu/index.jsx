@@ -1,80 +1,99 @@
-
 import { useStoreContext } from '../../utils/GlobalState';
+import { FILTER_SORT_PRODUCTS } from '../../utils/actions';
 
-import {
-    UPDATE_SORT_OPTION,
-  } from '../../utils/actions';
+// import {
+//     UPDATE_SORT_OPTION,
+// } from '../../utils/actions';
 
-function SearchMenu() {
+function SearchMenu({triggerSearch}) {
     const [state, dispatch] = useStoreContext();
-    // filter options
-    // price range
-    // sale ??
-    // category
-    //recomended
-    const handleSubmit = () => {
+    const categoryList = [
+        'Biography',
+        'Romance',
+        'Horror',
+        'Mystery',
+        'Poetry',
+    ];
+
+    // on submit update state vars for filter, sort, min, max
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        // filter options: price range, category
+        // sale, recomended ???
+        // console.log(e.target.category.value)
+        // sort options: price, newest/oldest
+        let filterMethod = '';
+        if (e.target.category.value != '' && categoryList.includes(e.target.category.value)) {
+            filterMethod = e.target.category.value;
+        } else if (e.target.maxPrice.value && e.target.minPrice.value) {
+            filterMethod = 'price';
+        } else {
+            alert('Pick a sorting method');
+        }
+
+        // retrieve sort method
+        let sortMethod = '';
+        if (e.target.asc.checked) {
+            sortMethod = 'asc';
+        } else if (e.target.desc.checked) {
+            sortMethod = 'desc';
+        } else if (e.target.new.checked) {
+            sortMethod = 'new';
+        } else if (e.target.old.checked) {
+            sortMethod = 'old';
+        }
+        // console.log('about to dispatch')
+        // console.log(filterMethod, sortMethod, e.target.minPrice.value, e.target.maxPrice.value)
+        await dispatch({
+            type: FILTER_SORT_PRODUCTS,
+            filter: filterMethod,
+            sort: sortMethod,
+            min: e.target.minPrice.value,
+            max: e.target.maxPrice.value,
+        })
+        triggerSearch(true)
+        // console.log(state)
 
     }
-
-    // sort options
-    // price
-    // newest/oldest
-    // updates the state.sort to the specified string
-    const handleSort = (option) => {
-        dispatch({
-            type: UPDATE_SORT_OPTION,
-            sort: option,
-        });
-        // sort by option string given
-        // switch (option) {
-        //     case 'asc':
-        //         break;
-        //     case 'desc':
-        //         break;
-        //     case 'new':
-        //         break;
-        //     case 'old':
-        //         break;
-        //     default:
-        //         break;
-        // }
-
-    }
-
 
     return (
         <div className="container">
-            <h3>This is the search menu</h3>
-            {/* need a handle form submit function */}
-            <form>
-                <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" />
-                <label for="vehicle1"> I have a bike</label> <br />
-                <button type="submit" onClick={() => {
-                    handleSubmit();
-                }}>Search</button>
+            <form onSubmit={(e) => {
+                    handleSubmit(e);
+                }}>
+                <p>Filter Options</p>
+                <label>Category:</label><br />
+                <input type="text" id="category" name="category"
+                /><br />
+                <label>Price Min:</label><br />
+                <input type="text" id="maxPrice" name="maxPrice"
+                /><br />
+                <label>Price Max:</label><br />
+                <input type="text" id="minPrice" name="minPrice"
+                /><br />
 
-            </form>
 
-            {/*  add onclick events to sorting options */}
-            <form>
                 <p>Sorting options</p>
-                <button
-                    onClick={() => {
-                        handleSort('asc');
-                    }}>Price Ascending</button>
-                <button
-                    onClick={() => {
-                        handleSort('desc');
-                    }}>Price Descending</button>
-                <button
-                    onClick={() => {
-                        handleSort('new');
-                    }}>Newest</button>
-                <button
-                    onClick={() => {
-                        handleSort('old');
-                    }}>Oldest</button>
-            </form>
+
+                <input type="checkbox" id="asc" name="asc"
+                />
+                <label>Price Ascending</label> <br />
+
+                <input type="checkbox" id="desc" name="desc"
+                />
+                <label>Price Descending</label> <br />
+
+                <input type="checkbox" id="new" name="new"
+                />
+                <label>Newest</label> <br />
+
+                <input type="checkbox" id="old" name="old"
+                />
+                <label>Oldest</label> <br />
+                <button type="submit" >Search</button>
+
+            </form >
+
         </div>
     )
 }
