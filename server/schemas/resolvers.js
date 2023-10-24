@@ -45,7 +45,7 @@ const resolvers = {
       try {
         if (!categoryID) {
 
-          return await Product.find();
+          return await Product.find().populate('category');
         }
 
         const category = await Category.findById(categoryID);
@@ -54,7 +54,7 @@ const resolvers = {
           throw new Error('Category not found');
         }
 
-        return await Product.find({ category: categoryID });
+        return await Product.find({ category: categoryID }).populate('category');
       } catch (error) {
         throw new Error('Error fetching products by category');
       }

@@ -70,7 +70,9 @@ export const ADD_PRODUCT = gql`
       image
       quantity
       price
-      category
+      category {
+        _id
+      }
       tags
       sale
       dateAdded
@@ -89,7 +91,9 @@ export const UPDATE_PRODUCT_DETAILS = gql`
         image
         quantity
         price
-        category
+        category {
+          _id
+        }
         tags
         sale
         dateAdded
