@@ -5,7 +5,7 @@ import { FILTER_SORT_PRODUCTS } from '../../utils/actions';
 //     UPDATE_SORT_OPTION,
 // } from '../../utils/actions';
 
-function SearchMenu({triggerSearch}) {
+function SearchMenu() {
     const [state, dispatch] = useStoreContext();
     const categoryList = [
         'Biography',
@@ -51,7 +51,6 @@ function SearchMenu({triggerSearch}) {
             min: e.target.minPrice.value,
             max: e.target.maxPrice.value,
         })
-        triggerSearch(true)
         // console.log(state)
 
     }
@@ -62,7 +61,7 @@ function SearchMenu({triggerSearch}) {
                     handleSubmit(e);
                 }}>
                 <p>Filter Options</p>
-                <label>Category:</label><br />
+                <label>Category: (Biography, Romance, Horror, Mystery, Poetry)</label><br />
                 <input type="text" id="category" name="category"
                 /><br />
                 <label>Price Min:</label><br />
