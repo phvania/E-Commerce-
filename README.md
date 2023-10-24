@@ -1,27 +1,51 @@
 ## E-Commerce- Application ##
-## Licence:
-MIT
 
-## Demo:
+Project 3 by: Riley Song, Priti, and Max Walent
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+
+<a href='#'>Deployment</a>
 
 ## About:
-This is an E-Commerce Website build for selling category wise book products online.
-In this projects a user can visit the websites, registers and login to the website. They can check all the products available for shopping, filter and search item based on different categories, and then add to cart. They can add multiple item to the cart and also plus or minus the quantity in the cart. Once the cart is updated, the user can proceed to checkout and click the credit card payment details to proceed. Once the payment is success the orders will be placed and users will be able to see the orders details in the orders section.
+This is an E-Commerce website built for selling books online.
+A user can visit the website, register and login. They can see all the available products, on a separate page they can filter and search for items based on a category or price range and sort in ascending or descending by price or date added. Products can be added or removed from a cart. The user can then proceed to checkout and click the credit card payment details to proceed. Once the payment is success the orders will be placed and users will be able to see the orders details in the orders section.
 
 
-Note: The payment page is created only for demo purpose and its not fully integrated with any payment gateway. So for now any credit card details will be accepted and the demo orders will be placed.
+Note: Currently the checkout is not working. Clicking on checkout from the cart does not redirect as it should.
 
 
-## Technologies UseTechnologies used:
-HTML
-CSS
-Javascript
-React
-redux
-MongoDB
-Database
-Graphql
-Bootstarp
+## Technologies Used:
+- HTML
+- CSS
+- Javascript
+- React
+- MongoDB
+- Graphql
+- Bootstrap
+- Apollo
+- Express
+- Json Web Token
+- Stripe
+- Mongoose
+
+## Login Credientals for Testing
+Basic User
+
+- Username: eholt@testmail.com
+- Password: password12345
+
+
+Admin
+
+- Username: admin@gmail.com
+- Password: adminpassword
+
+Stripe Test Card
+
+- Number: 4242424242424242
+- CVC: any 3 digits
+- Date: Any future date
 
 
 ## Screenshots:
