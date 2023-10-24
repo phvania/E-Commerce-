@@ -8,19 +8,24 @@ import { FILTER_SORT_PRODUCTS } from '../../utils/actions';
 function SearchMenu() {
     const [state, dispatch] = useStoreContext();
     const categoryList = [
-
+        'Biography',
+        'Romance',
+        'Horror',
+        'Mystery',
+        'Poetry',
     ];
 
     // on submit update state vars for filter, sort, min, max
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
         // filter options: price range, category
         // sale, recomended ???
-
+        console.log(e.target.category.value)
         // sort options: price, newest/oldest
         let filterMethod = '';
-        if (this.categoryNode != '' && categoryList.includes(this.categoryNode.value)) {
-            filterMethod = this.categoryNode;
-        } else if (this.maxNode && this.minNode) {
+        if (e.target.category.value != '' && categoryList.includes(e.target.category.value)) {
+            filterMethod = e.target.category.value;
+        } else if (e.target.maxPrice.value && e.target.minPrice.value) {
             filterMethod = 'price';
         } else {
             alert('Pick a sorting method');
@@ -28,71 +33,64 @@ function SearchMenu() {
 
         // retrieve sort method
         let sortMethod = '';
-        if (this.ascNode) {
+        if (e.target.asc.checked) {
             sortMethod = 'asc';
-        } else if (this.descNode) {
+        } else if (e.target.desc.checked) {
             sortMethod = 'desc';
-        } else if (this.newNode) {
+        } else if (e.target.new.checked) {
             sortMethod = 'new';
-        } else if (this.oldNode) {
+        } else if (e.target.old.checked) {
             sortMethod = 'old';
         }
-
+        console.log('about to dispatch')
         dispatch({
             type: FILTER_SORT_PRODUCTS,
             filter: filterMethod,
             sort: sortMethod,
-            min: this.minNode,
-            max: this.maxNode,
+            min: e.target.minPrice.value,
+            max: e.target.maxPrice.value,
         })
+        console.log(state)
 
     }
 
     return (
         <div className="container">
-            <form>
+            <form onSubmit={(e) => {
+                    handleSubmit(e);
+                }}>
                 <p>Filter Options</p>
-
                 <label>Category:</label><br />
                 <input type="text" id="category" name="category"
-                    ref={node => (this.categoryNode = node)}
                 /><br />
                 <label>Price Min:</label><br />
                 <input type="text" id="maxPrice" name="maxPrice"
-                    ref={node => (this.maxNode = node)}
                 /><br />
                 <label>Price Max:</label><br />
                 <input type="text" id="minPrice" name="minPrice"
-                    ref={node => (this.minNode = node)}
                 /><br />
 
 
                 <p>Sorting options</p>
 
                 <input type="checkbox" id="asc" name="asc"
-                    ref={node => (this.ascNode = node)}
                 />
                 <label>Price Ascending</label> <br />
 
                 <input type="checkbox" id="desc" name="desc"
-                    ref={node => (this.descNode = node)}
                 />
                 <label>Price Descending</label> <br />
 
                 <input type="checkbox" id="new" name="new"
-                    ref={node => (this.newNode = node)}
                 />
                 <label>Newest</label> <br />
 
                 <input type="checkbox" id="old" name="old"
-                    ref={node => (this.oldNode = node)}
                 />
                 <label>Oldest</label> <br />
-                <button type="submit" onClick={() => {
-                    handleSubmit();
-                }}>Search</button>
+                <button type="submit" >Search</button>
 
-            </form>
+            </form >
 
         </div>
     )
