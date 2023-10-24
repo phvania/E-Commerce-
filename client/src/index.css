@@ -18,6 +18,9 @@ body {
   min-height: 100%;
 }
 
+
+
+
 body {
   margin: 0;
   padding: 0;
@@ -47,6 +50,7 @@ h1 {
 
 h2 {
   font-size: 2rem;
+  text-align: center;
 }
 
 h3 {
@@ -109,6 +113,9 @@ button[disabled] {
   cursor: default;
   opacity: .8;
 }
+button h2 {
+  word-spacing: 2%;
+}
 
 img {
   max-width: 100%;
@@ -160,12 +167,15 @@ input:focus {
 }
 
 .mx-1 {
-  margin-right: var(--spacing-one);
-  margin-left: var(--spacing-one);
+  margin-right: var(--spacing-two);
+  margin-left: var(--spacing-two);
+  justify-content: flex-end;
+  display: flex;
+
 }
 
 .mx-2 {
-  margin-right: var(--spacing-two);
+  margin-right: var(--spacing-one);
   margin-left: var(--spacing-two);
 }
 
