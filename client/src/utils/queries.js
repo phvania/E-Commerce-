@@ -10,7 +10,10 @@ export const QUERY_PRODUCTS = gql`
       image
       quantity
       price
-      category
+      category{
+        _id
+        name
+      }
       sale
       tags
       dateAdded
@@ -61,7 +64,10 @@ export const QUERY_ALL_PRODUCTS = gql`
       image
       quantity
       price
-      category
+      category{
+        _id
+        name
+      }
       tags
       sale
       dateAdded

@@ -44,6 +44,8 @@ function CategoryMenu() {
       currentCategory: categoryID,
     });
   };
+
+  console.log(categoryData)
   
 
   
@@ -55,6 +57,7 @@ function CategoryMenu() {
         <button
           key={item._id}
           onClick={() => {
+            console.log(item._id)
             handleClick(item._id);
           }}
         >
