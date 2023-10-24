@@ -15,6 +15,10 @@ import Sales from './pages/Sales';
 import Search from './pages/Search';
 import Cart from './pages/Cart';
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery';
+
+
 const router = createBrowserRouter([
   {
     path: '/',

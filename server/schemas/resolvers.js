@@ -71,12 +71,17 @@ const resolvers = {
     // get user by id // user auth
     user: async (parent, args, context) => {
       if (context.user) {
-        const user = await User.findById(context.user._id).populate({
-          path: 'orders.products',
-          populate: 'category'
+        const user = await User.findById(context.user._id)
+        .populate({
+          path: 'orders',
+          populate: {
+            path: 'products',
+            model: 'Product' 
+          }
         });
 
-        user.orders.sort((a, b) => b.purchaseDate - a.purchaseDate);
+        user.orders
+        //.sort((a, b) => b.purchaseDate - a.purchaseDate);
 
         return user;
       }
@@ -445,7 +450,8 @@ const resolvers = {
 
 
     // update product info // admin auth
-    updateProduct: async (parent, { _id, quantity, price, sale }, context) => {
+    updateProduct: async (parent, { _id, name, quantity, description, price, sale }, context) => {
+      console.log('HELLO')
       if (context.user.admin) {
         try {
           const updatedProduct = await Product.findByIdAndUpdate(
@@ -453,6 +459,8 @@ const resolvers = {
             {
               $set: {
                 quantity: quantity !== undefined ? quantity : null,
+                name: name !== undefined ? name : null,
+                description: description !== undefined ? description : null,
                 price: price !== undefined ? price : null,
                 sale: sale !== undefined ? sale : null,
               },

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ProductItem from '../ProductItem';
 import { useStoreContext } from '../../utils/GlobalState';
 import { UPDATE_PRODUCTS } from '../../utils/actions';
@@ -6,6 +6,11 @@ import { useQuery } from '@apollo/client';
 import { QUERY_PRODUCTS } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
+import AuthService from '../../utils/auth';
+import AddProduct from '../AddProduct/index'
+
+
+const isAdmin = AuthService.checkAdmin();
 
 
 function ProductList() {
@@ -15,8 +20,8 @@ function ProductList() {
   const { loading, data } = useQuery(QUERY_PRODUCTS, {
     variables: { categoryID: currentCategory || null }, // Pass null when "All" is selected
   });
-  
-  
+
+
   useEffect(() => {
     if (data) {
       dispatch({
@@ -80,9 +85,37 @@ function ProductList() {
     return sorted
   }
 
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+  const openAddModal = () => {
+    setIsAddModalOpen(true);
+  };
+
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+  };
+
+  const refreshPage = () => {
+    window.location.reload();
+  }
+
+
   return (
     <div className="my-2">
       <h2>Our Products:</h2>
+      {isAdmin ? (
+        <>
+          <button onClick={openAddModal}>Add Product</button>
+          {isAddModalOpen && (
+            <AddProduct
+              closeEditModal={closeAddModal}
+              refreshPage={refreshPage} 
+            />
+          )}
+        </>
+      ) : (
+        null
+      )}
       {state.products.length ? (
         <div className="flex-row">
           {filterProducts().map((product) => (
