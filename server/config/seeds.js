@@ -24,7 +24,7 @@ db.once('open', async () => {
       author: ['Charlotte Bronte'],
       description:
         'Jane Eyre description',
-      image: 'http://bookcoverarchive.com/wp-content/uploads/amazon/jane_eyre.jpg',
+      image: 'https://d3525k1ryd2155.cloudfront.net/f/557/526/9780451526557.IN.0.m.jpg',
       category: categories[0]._id,
       price: 29.99,
       quantity: 100,
