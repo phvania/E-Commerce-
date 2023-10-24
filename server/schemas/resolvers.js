@@ -91,28 +91,28 @@ const resolvers = {
 
     // view all orders // admin auth
     viewOrders: async (parent, { shipped, completed }, context) => {
-      // console.log(context)
-      // console.log(context.user, '<---------------')
 
       if (context.user.admin) {
         try {
           if (shipped) {
-            return await Order.find({ shipped: true })
+            return await Order.find({ shipped: true }).populate('products')
           } else if (completed) {
-            return await Order.find({ completed: true })
+            return await Order.find({ completed: true }).populate('products')
           } else if (shipped && completed) {
-            return await Order.find({ shipped: true, completed: true })
+            return await Order.find({ shipped: true, completed: true }).populate('product')
           } else {
-            return await Order.find()
+            
+            const data= await Order.find().populate('products')
+            console.log(data)
+            return data
           }
 
         } catch (err) {
           throw err;
         }
-        // } else {
-        //   throw AuthenticationError;
-        // }
-      }
+      } else {
+          throw AuthenticationError;
+        } 
     },
 
 
