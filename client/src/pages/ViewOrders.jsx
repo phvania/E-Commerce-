@@ -9,13 +9,13 @@ function ViewOrders() {
 
     if (data) {
         orders = data;
-        console.log('orders ---->',data )
+        console.log('orders ---->',orders )
     }
 
 
     return (
         <>
-            <h1> testing</h1>
+        
         </>
     )
 }
