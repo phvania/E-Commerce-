@@ -38,7 +38,7 @@ db.once('open', async () => {
       author: ['Daniel McGinn'],
       description:
         '1000 Black Umbrellas description',
-      image: 'http://bookcoverarchive.com/wp-content/uploads/2016/08/SquareSpace6.jpg',
+      image: 'https://d3525k1ryd2155.cloudfront.net/h/436/796/1496796436.0.m.jpg',
       category: categories[3]._id,
       price: 13.99,
       quantity: 100,
@@ -52,7 +52,7 @@ db.once('open', async () => {
       category: categories[4]._id,
       description:
         'Winchell description',
-      image: 'http://bookcoverarchive.com/wp-content/uploads/amazon/winchell.jpg',
+      image: 'https://d3525k1ryd2155.cloudfront.net/h/742/364/134364742.0.m.jpg',
       price: 15.99,
       quantity: 20,
       tags: ['sale'],
@@ -64,7 +64,7 @@ db.once('open', async () => {
       category: categories[3]._id,
       description:
         'Praesent placerat, odio vel euismod venenatis, lectus arcu laoreet felis, et fringilla sapien turpis vestibulum nisl.',
-      image: 'http://bookcoverarchive.com/wp-content/uploads/2010/09/the_last_skin.large_.jpg',
+      image: 'https://d3525k1ryd2155.cloudfront.net/f/974/116/9780143116974.RH.0.l.jpg',
       price: 3.99,
       quantity: 50,
       tags: ['sale']
@@ -75,7 +75,7 @@ db.once('open', async () => {
       category: categories[2]._id,
       description:
         'Description.',
-      image: 'http://bookcoverarchive.com/wp-content/uploads/amazon/bloods_a_rover.jpg',
+      image: 'https://d3525k1ryd2155.cloudfront.net/h/492/201/315201492.0.m.jpg',
       price: 3.99,
       quantity: 50,
       tags: []
