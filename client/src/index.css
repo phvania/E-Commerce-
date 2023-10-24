@@ -26,6 +26,7 @@ body {
   line-height: 1.5;
   font-size: 16px;
   color: var(--dark);
+  background-color: aquamarine;
 }
 
 h1,
@@ -50,6 +51,7 @@ h2 {
 
 h3 {
   font-size: 1.75rem;
+  color: #B12704;
 }
 
 h4 {
@@ -110,6 +112,9 @@ button[disabled] {
 
 img {
   max-width: 100%;
+  padding-left: 30%;
+  padding-bottom: -20px;
+  
 }
 
 span[role="img"] {
@@ -197,6 +202,7 @@ input:focus {
 .card {
   width: 25%;
   text-align: center;
+  
 }
 
 .error-text {
