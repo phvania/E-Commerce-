@@ -14,9 +14,10 @@ import Contact from './pages/Contact';
 import Sales from './pages/Sales';
 import Search from './pages/Search';
 import Cart from './pages/Cart';
+import ViewOrders from './pages/ViewOrders';
 
-//import 'bootstrap/dist/css/bootstrap.min.css';
-//import 'jquery';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'jquery';
 
 
 const router = createBrowserRouter([
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
       }, {
         path: '/orderHistory',
         element: <OrderHistory />
+      },
+      {
+        path: '/viewOrders',
+        element: <ViewOrders/>
       }, {
         path: '/products/:id',
         element: <Detail />
