@@ -29,7 +29,7 @@ body {
   line-height: 1.5;
   font-size: 16px;
   color: var(--dark);
-  background-color: aquamarine;
+  background-color: aquamarine important; 
 }
 
 h1,
