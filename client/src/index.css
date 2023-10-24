@@ -113,8 +113,8 @@ button[disabled] {
   cursor: default;
   opacity: .8;
 }
-button h2 {
-  word-spacing: 2%;
+h2 button {
+  word-spacing: 10px;
 }
 
   
