@@ -12,7 +12,7 @@ const resolvers = {
     getSales: async () => {
       return await Product.find({
         sale: true
-      })
+      }).populate('category')
     },
 
     // search for product via query // no auth
