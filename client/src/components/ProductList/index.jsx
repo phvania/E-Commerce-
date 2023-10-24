@@ -118,7 +118,7 @@ function ProductList() {
       )}
       {state.products.length ? (
         <div className="flex-row">
-          {sortProducts(filterProducts().map((product) => (
+          {filterProducts().map((product) => (
             <ProductItem
               key={product._id}
               _id={product._id}
@@ -127,7 +127,7 @@ function ProductList() {
               price={product.price}
               quantity={product.quantity}
             />
-          )))}
+          ))}
         </div>
       ) : (
         <h3>You haven't added any products yet!</h3>
