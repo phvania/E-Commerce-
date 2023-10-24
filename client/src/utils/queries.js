@@ -104,3 +104,20 @@ export const QUERY_USER = gql`
     }
   }
 `;
+
+export const QUERY_ORDERS = gql`
+  query viewOrders($shipped: Boolean, $completed: Boolean) {
+    viewOrders(shipped: $shipped, completed: $completed) {
+      _id
+      purchaseDate
+      products {
+        name
+        _id
+        author
+        price
+      }
+      shipped
+      completed
+    }
+  }  
+`
