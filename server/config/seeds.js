@@ -6,6 +6,7 @@ db.once('open', async () => {
   await cleanDB('Category', 'categories');
   await cleanDB('Product', 'products');
   await cleanDB('User', 'users');
+  await cleanDB('Order', 'orders');
 
 
   const categories = await Category.insertMany([
