@@ -188,11 +188,12 @@ const resolvers = {
           dir = 'desc'
         }
         // find all products in price range
+        // min and max are flipped for some reason, it works like this, dont ask me why
         products = await Product.find({
           $and: [
-            { price: { $gte: args.min } },
-            { price: { $lte: args.max } }]
-        }).sort({[`${litt}`]: dir})
+            { price: { $gte: args.max } },
+            { price: { $lte: args.min } }]
+        }).populate('category').sort({[`${litt}`]: dir})
 
       } else {
         let litt = `price`
@@ -211,10 +212,10 @@ const resolvers = {
         // find all products with matching category
         let categories = await Category.find({name: args.filter})
         // categories[0]._id
-        console.log(categories[0]._id.toString())
+        // console.log(categories[0]._id.toString())
         products = await Product.find({ category: {_id: categories[0]._id.toString()} }).populate('category').sort({[`${litt}`]: dir})
       }
-      
+      console.log(products)
       return products;
 
       // escape case for no sorting

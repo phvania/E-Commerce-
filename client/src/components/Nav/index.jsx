@@ -9,7 +9,8 @@ function Nav() {
   function showNavigation() {
     if (Auth.loggedIn()) {
       return (
-        <ul className="flex-row">
+        
+        <ul className="flex-row" >
           <li className="mx-1">
             {isAdmin ? (
               <Link to="/viewOrders">View Orders</Link>
@@ -78,7 +79,7 @@ function Nav() {
       <h1>
         <Link to="/">
           <span role="img" aria-label="shopping bag">🛍️</span>
-          -Shop-Shop
+          UFTShop
         </Link>
       </h1>
 
