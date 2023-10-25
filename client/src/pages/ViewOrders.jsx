@@ -33,11 +33,78 @@ function ViewOrders() {
     });
   };
 
-    return (
-        <>
-            <h1> testing</h1>
-        </>
-    )
+  return (
+    <div>
+      <h1>Order History</h1>
+
+      {/* Filter options */}
+      <div>
+        <label>
+          <input
+            type="radio"
+            name="filterOption"
+            value="none"
+            checked={filters.filterOption === 'none'}
+            onChange={handleFilterChange}
+          />
+          Show All
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="filterOption"
+            value="shipped"
+            checked={filters.filterOption === 'shipped'}
+            onChange={handleFilterChange}
+          />
+          Show Shipped
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="filterOption"
+            value="completed"
+            checked={filters.filterOption === 'completed'}
+            onChange={handleFilterChange}
+          />
+          Show Completed
+        </label>
+      </div>
+
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Purchase Date</th>
+            <th>Products</th>
+            <th>Total</th>
+            <th>Shipped</th>
+            <th>Completed</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order._id}>
+              <td>{order._id}</td>
+              <td>{new Date(parseInt(order.purchaseDate)).toLocaleDateString()}</td>
+              <td>
+                <ul>
+                  {order.products.map((product) => (
+                    <li key={product._id}>
+                      {product.name}: ${product.price}
+                    </li>
+                  ))}
+                </ul>
+              </td>
+              <td>${calculateTotal(order.products)}</td>
+              <td>{order.shipped ? 'Yes' : 'No'}</td>
+              <td>{order.completed ? 'Yes' : 'No'}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  );
 }
 
 export default ViewOrders;
