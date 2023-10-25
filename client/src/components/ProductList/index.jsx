@@ -17,15 +17,15 @@ function ProductList() {
   const [state, dispatch] = useStoreContext();
 
   const { currentCategory } = state;
-  console.log("currentCategory -->", currentCategory)
+  // console.log("currentCategory -->", currentCategory)
   const { loading, data } = useQuery(QUERY_PRODUCTS, {
     variables: { categoryID: currentCategory || null }, // Pass null when "All" is selected
   });
 
 
   useEffect(() => {
-    console.log('loading:', loading);
-    console.log('data:', data);
+    // console.log('loading:', loading);
+    // console.log('data:', data);
     if (data) {
       dispatch({
         type: UPDATE_PRODUCTS,
@@ -35,8 +35,8 @@ function ProductList() {
         idbPromise('products', 'put', product);
       });
 
-      console.log("my data -->", data)
-      console.log(data.products)
+      // console.log("my data -->", data)
+      // console.log(data.products)
     } else if (!loading) {
       idbPromise('products', 'get').then((products) => {
         dispatch({
@@ -44,7 +44,7 @@ function ProductList() {
           products: products,
         });
       });
-      console.log("b ad data -->", data)
+      // console.log("b ad data -->", data)
     }
   }, [data, loading, dispatch]);
 

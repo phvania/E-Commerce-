@@ -45,7 +45,7 @@ function CategoryMenu() {
     });
   };
 
-  console.log(categoryData)
+  // console.log(categoryData)
   
 
   

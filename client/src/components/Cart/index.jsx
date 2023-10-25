@@ -50,9 +50,23 @@ const Cart = () => {
 
   function submitCheckout() {
     console.log('button pressed')
+    console.log(state.cart)
+    let newCart = state.cart.map((item) => {
+      let x = {
+        _id: item._id,
+        purchaseQuantity: item.purchaseQuantity,
+        name: item.name,
+        image: item.image,
+        price: item.price,
+        quantity: item.quantity,
+        author: item.author
+
+      }
+      return x;
+    })
     getCheckout({
       variables: { 
-        products: [...state.cart],
+        products: newCart,
       },
     });
   }
