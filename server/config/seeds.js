@@ -93,6 +93,7 @@ db.once('open', async () => {
       price: 15.99,
       quantity: 50,
       sale: true,
+      dateAdded: '169784052542',
       tags: []
     },
     {
@@ -104,6 +105,7 @@ db.once('open', async () => {
       image: 'https://d3525k1ryd2155.cloudfront.net/h/509/617/794617509.0.m.jpg',
       price: 10.99,
       quantity: 20,
+      dateAdded: '169782057542',
       tags: []
     },
     {
@@ -115,6 +117,7 @@ db.once('open', async () => {
       image: 'https://d3525k1ryd2155.cloudfront.net/h/506/188/1478188506.0.m.jpg',
       price: 24.99,
       quantity: 50,
+      dateAdded: '169782051342',
       tags: []
     },
     {
@@ -127,7 +130,8 @@ db.once('open', async () => {
       price: 19.99,
       quantity: 150,
       sale: true,
-      tags: []
+      dateAdded: '169782032542',
+      tags: [],
     },
     {
       name: "Steve Jobs",
@@ -138,7 +142,8 @@ db.once('open', async () => {
       image: 'https://d3525k1ryd2155.cloudfront.net/h/655/217/1564217655.6.m.jpg',
       price: 12.99,
       quantity: 80,
-      tags: []
+      dateAdded: '169782052242',
+      tags: [],
     },
     {
       name: "Benjamin Franklin",
@@ -149,7 +154,8 @@ db.once('open', async () => {
       image: 'https://d3525k1ryd2155.cloudfront.net/h/378/558/1182558378.0.m.jpg',
       price: 13.99,
       quantity: 50,
-      tags: []
+      dateAdded: '169782042542',
+      tags: [],
     },
     //
     {
@@ -162,7 +168,8 @@ db.once('open', async () => {
       price: 6.99,
       quantity: 30,
       sale: true,
-      tags: []
+      dateAdded: '169482052542',
+      tags: [],
     },
     {
       name: "IF",
@@ -173,7 +180,8 @@ db.once('open', async () => {
       image: 'https://d3525k1ryd2155.cloudfront.net/h/809/848/706848809.0.m.jpg',
       price: 3.99,
       quantity: 60,
-      tags: []
+      dateAdded: '169742052542',
+      tags: [],
     },
     // 13
     {
@@ -185,7 +193,8 @@ db.once('open', async () => {
       image: 'https://d3525k1ryd2155.cloudfront.net/h/969/010/1224010969.0.m.jpg',
       price: 29.99,
       quantity: 100,
-      tags: []
+      tags: [],
+      dateAdded: '169282052542',
     },
     {
       name: "Poems",
@@ -197,7 +206,8 @@ db.once('open', async () => {
       price: 10.99,
       quantity: 50,
       sale: true,
-      tags: []
+      dateAdded: '169782051542',
+      tags: [],
     },
     {
       name: "Songs From the Slums",
@@ -208,6 +218,7 @@ db.once('open', async () => {
       image: 'https://d3525k1ryd2155.cloudfront.net/h/086/635/1321635086.0.m.jpg',
       price: 5.99,
       quantity: 40,
+      dateAdded: '169782052522',
       tags: []
     },
     {
@@ -219,7 +230,8 @@ db.once('open', async () => {
       image: 'https://d3525k1ryd2155.cloudfront.net/h/532/440/1473440532.0.m.2.jpg',
       price: 12.99,
       quantity: 100,
-      tags: []
+      tags: [],
+      dateAdded: '169782050542',
     },
     {
       name: "The Hobbit",
@@ -231,6 +243,7 @@ db.once('open', async () => {
       price: 7.99,
       quantity: 50,
       sale: true,
+      dateAdded: '169782032542',
       tags: []
     },
     {
@@ -242,6 +255,7 @@ db.once('open', async () => {
       image: 'https://d3525k1ryd2155.cloudfront.net/h/902/542/905542902.0.m.jpg',
       price: 9.99,
       quantity: 20,
+      dateAdded: '169762052542',
       tags: []
     },
     {
@@ -251,6 +265,40 @@ db.once('open', async () => {
       description:
         'Description.',
       image: 'https://d3525k1ryd2155.cloudfront.net/h/735/136/733136735.0.m.jpg',
+      price: 19.99,
+      quantity: 80,
+      dateAdded: '169712052542',
+      tags: []
+    },
+    {
+      name: "Physics",
+      author: ['Douglas C Giancoli'],
+      category: categories[4]._id,
+      description:
+        'Description.',
+      image: 'https://d3525k1ryd2155.cloudfront.net/h/005/379/1295379005.0.m.jpg',
+      price: 19.99,
+      quantity: 80,
+      tags: []
+    },
+    {
+      name: "Chemistry",
+      author: ['Nivaldo J Tro'],
+      category: categories[4]._id,
+      description:
+        'Description.',
+      image: 'https://d3525k1ryd2155.cloudfront.net/h/013/127/1410127013.0.m.jpg',
+      price: 19.99,
+      quantity: 80,
+      tags: []
+    },
+    {
+      name: "Principles of Economics",
+      author: ['N Gregory Mankiw'],
+      category: categories[4]._id,
+      description:
+        'Description.',
+      image: 'https://d3525k1ryd2155.cloudfront.net/h/163/185/728185163.0.m.jpg',
       price: 19.99,
       quantity: 80,
       tags: []
