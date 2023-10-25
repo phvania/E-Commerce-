@@ -32,7 +32,7 @@ Note: Currently the checkout is not working. Clicking on checkout from the cart 
 ## Login Credientals for Testing
 Basic User
 
-- Username: eholt@testmail.com
+- Username: jsmith@fake.com
 - Password: password12345
 
 
