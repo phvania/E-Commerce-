@@ -10,7 +10,7 @@ function Nav() {
     if (Auth.loggedIn()) {
       return (
         
-        <ul className="flex-row" >
+        <ul className="d-flex justify-content-end " >
           <li className="mx-1">
             {isAdmin ? (
               <Link to="/viewOrders">View Orders</Link>
@@ -43,7 +43,7 @@ function Nav() {
       );
     } else {
       return (
-        <ul className="flex-row">
+        <ul className="d-flex justify-content-between flex-wrap">
           <li className="mx-1">
             <Link to="/signup">
               Signup
@@ -75,7 +75,7 @@ function Nav() {
   }
 
   return (
-    <header className="flex-row px-1">
+    <header className="d-flex justify-content-between px-1">
       <h1>
         <Link to="/">
           <span role="img" aria-label="shopping bag">🛍️</span>
