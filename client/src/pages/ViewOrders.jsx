@@ -1,23 +1,108 @@
 import { Link } from 'react-router-dom';
-
 import { useQuery } from '@apollo/client';
+import { gql } from '@apollo/client'; // Import gql from Apollo Client
+import React, { useState } from 'react';
+import Table from 'react-bootstrap/Table';
 import { QUERY_ORDERS } from '../utils/queries';
 
+const initialFilters = {
+  filterOption: 'none', 
+};
+
 function ViewOrders() {
-    const { data } = useQuery(QUERY_ORDERS);
-    let orders;
+  const [filters, setFilters] = useState(initialFilters); 
+  const { loading, error, data } = useQuery(QUERY_ORDERS, {
+    variables: { shipped: filters.filterOption === 'shipped', completed: filters.filterOption === 'completed' },
+  });
 
-    if (data) {
-        orders = data;
-        console.log('orders ---->',data )
-    }
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
 
+  const orders = data.viewOrders;
 
-    return (
-        <>
-            <h1> testing</h1>
-        </>
-    )
+  function calculateTotal(products) {
+    return products.reduce((total, product) => total + product.price, 0);
+  }
+
+  const handleFilterChange = (event) => {
+    const { value } = event.target;
+    setFilters({
+      ...filters,
+      filterOption: value,
+    });
+  };
+
+  return (
+    <div>
+      <h1>Order History</h1>
+
+      <div>
+        <label>
+          <input
+            type="radio"
+            name="filterOption"
+            value="none"
+            checked={filters.filterOption === 'none'}
+            onChange={handleFilterChange}
+          />
+          Show All
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="filterOption"
+            value="shipped"
+            checked={filters.filterOption === 'shipped'}
+            onChange={handleFilterChange}
+          />
+          Show Shipped
+        </label>
+        <label>
+          <input
+            type="radio"
+            name="filterOption"
+            value="completed"
+            checked={filters.filterOption === 'completed'}
+            onChange={handleFilterChange}
+          />
+          Show Completed
+        </label>
+      </div>
+
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Purchase Date</th>
+            <th>Shipped</th>
+            <th>Completed</th>
+            <th>Total</th>
+            <th>Products</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order._id}>
+              <td>{order._id}</td>
+              <td>{new Date(parseInt(order.purchaseDate)).toLocaleDateString()}</td>
+              <td>{order.shipped ? 'Yes' : 'No'}</td>
+              <td>{order.completed ? 'Yes' : 'No'}</td>
+              <td>${calculateTotal(order.products)}</td>
+              <td>
+                <ul>
+                  {order.products.map((product) => (
+                    <li key={product._id}>
+                      {product.name}: ${product.price}
+                    </li>
+                  ))}
+                </ul>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </div>
+  );
 }
 
 export default ViewOrders;
