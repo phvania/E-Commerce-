@@ -17,7 +17,7 @@ function ProductList() {
   const [state, dispatch] = useStoreContext();
 
   const { currentCategory } = state;
-  console.log("currentCategory -->",currentCategory)
+  console.log("currentCategory -->", currentCategory)
   const { loading, data } = useQuery(QUERY_PRODUCTS, {
     variables: { categoryID: currentCategory || null }, // Pass null when "All" is selected
   });
@@ -35,7 +35,7 @@ function ProductList() {
         idbPromise('products', 'put', product);
       });
 
-      console.log("my data -->",data)
+      console.log("my data -->", data)
       console.log(data.products)
     } else if (!loading) {
       idbPromise('products', 'get').then((products) => {
@@ -44,7 +44,7 @@ function ProductList() {
           products: products,
         });
       });
-      console.log("b ad data -->",data)
+      console.log("b ad data -->", data)
     }
   }, [data, loading, dispatch]);
 
@@ -113,7 +113,7 @@ function ProductList() {
           {isAddModalOpen && (
             <AddProduct
               closeEditModal={closeAddModal}
-              refreshPage={refreshPage} 
+              refreshPage={refreshPage}
             />
           )}
         </>
@@ -122,16 +122,20 @@ function ProductList() {
       )}
       {state.products.length ? (
         <div className="flex-row">
-          {filterProducts().map((product) => (
-            <ProductItem
-              key={product._id}
-              _id={product._id}
-              image={product.image}
-              name={product.name}
-              price={product.price}
-              quantity={product.quantity}
-            />
-          ))}
+          <div className="flex-row">
+            {filterProducts().map((product) => (
+              <ProductItem
+                key={product._id}
+                _id={product._id}
+                image={product.image}
+                name={product.name}
+                author={product.author}
+                price={product.price}
+                quantity={product.quantity}
+                style={{ margin: '10px' }}
+              />
+            ))}
+          </div>
         </div>
       ) : (
         <h3>You haven't added any products yet!</h3>

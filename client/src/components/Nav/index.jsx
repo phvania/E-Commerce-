@@ -1,93 +1,95 @@
 import Auth from "../../utils/auth";
 import { Link } from "react-router-dom";
 import AuthService from '../../utils/auth';
+import { Navbar, Nav } from 'react-bootstrap';
 
 const isAdmin = AuthService.checkAdmin();
 
-function Nav() {
-
+function MyNav() {
   function showNavigation() {
     if (Auth.loggedIn()) {
       return (
-        
-        <ul className="flex-row" >
-          <li className="mx-1">
+        <Nav className="ml-auto align-items-center">
+          <Nav.Item className="mx-1">
             {isAdmin ? (
-              <Link to="/viewOrders">View Orders</Link>
+              <Link to="/viewOrders" className="nav-link">
+                View Orders
+              </Link>
             ) : (
-              <Link to="/orderHistory">Order History</Link>
+              <Link to="/orderHistory" className="nav-link">
+                Order History
+              </Link>
             )}
-          </li>
-          <li className="mx-1">
-            {/* this is not using the Link component to logout or user and then refresh the application to the start */}
-            <a href="/" onClick={() => Auth.logout()}>
+          </Nav.Item>
+          <Nav.Item className="mx-1">
+            <a href="/" onClick={() => Auth.logout()} className="nav-link">
               Logout
             </a>
-          </li>
-          <li className="mx-1">
-            <Link to="/contact">
+          </Nav.Item>
+          <Nav.Item className="mx-1">
+            <Link to="/contact" className="nav-link">
               Contact Us
             </Link>
-          </li>
-          <li className="mx-1">
-            <Link to="/sales">
+          </Nav.Item>
+          <Nav.Item className="mx-1">
+            <Link to="/sales" className="nav-link">
               Sales
             </Link>
-          </li>
-          <li className="mx-1">
-            <Link to="/Search">
+          </Nav.Item>
+          <Nav.Item className="mx-1">
+            <Link to="/Search" className="nav-link">
               Search
             </Link>
-          </li>
-        </ul>
+          </Nav.Item>
+        </Nav>
       );
     } else {
       return (
-        <ul className="flex-row">
-          <li className="mx-1">
-            <Link to="/signup">
+        <Nav className="ml-auto align-items-center">
+          <Nav.Item className="mx-1">
+            <Link to="/signup" className="nav-link">
               Signup
             </Link>
-          </li>
-          <li className="mx-1">
-            <Link to="/login">
+          </Nav.Item>
+          <Nav.Item className="mx-1">
+            <Link to="/login" className="nav-link">
               Login
             </Link>
-          </li>
-          <li className="mx-1">
-            <Link to="/contact">
+          </Nav.Item>
+          <Nav.Item className="mx-1">
+            <Link to="/contact" className="nav-link">
               Contact Us
             </Link>
-          </li>
-          <li className="mx-1">
-            <Link to="/sales">
+          </Nav.Item>
+          <Nav.Item className="mx-1">
+            <Link to="/sales" className="nav-link">
               Sales
             </Link>
-          </li>
-          <li className="mx-1">
-            <Link to="/Search">
+          </Nav.Item>
+          <Nav.Item className="mx-1">
+            <Link to="/Search" className="nav-link">
               Search
             </Link>
-          </li>
-        </ul>
+          </Nav.Item>
+        </Nav>
       );
     }
   }
 
   return (
-    <header className="flex-row px-1">
-      <h1>
-        <Link to="/">
+    <Navbar style={{ backgroundColor: '#9DC888' }} expand="lg">
+      <Navbar.Brand>
+        <Link to="/" className="nav-link">
           <span role="img" aria-label="shopping bag">🛍️</span>
           UFTShop
         </Link>
-      </h1>
-
-      <nav>
+      </Navbar.Brand>
+      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Collapse id="basic-navbar-nav">
         {showNavigation()}
-      </nav>
-    </header>
+      </Navbar.Collapse>
+    </Navbar>
   );
 }
 
-export default Nav;
+export default MyNav;

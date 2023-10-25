@@ -51,26 +51,27 @@ function CategoryMenu() {
   
 
   return (
-    <div>
-      <h2>Choose a Category:</h2>
+    <div className='link'>
       {categories.map((item) => (
-        <button
-          key={item._id}
+        <button 
+        key={item._id}
           onClick={() => {
-            console.log(item._id)
-            handleClick(item._id);
+           console.log(item._id)
+           handleClick(item._id);
           }}
-        >
+          style={{ margin: '10px' }}
+         >
           {item.name}
-        </button>
-      ))}
-      <button onClick={() => { handleClick('') }}>
-        All
-      </button>
+         </button>
+       
+       ))}
+       <button onClick={() => { handleClick('') }}>
+         All
+       </button>
 
       {isAdmin && (
       <button>
-        Admin testing
+        Add Category
       </button>
     )}
     </div>

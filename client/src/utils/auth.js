@@ -44,12 +44,12 @@ class AuthService {
 
   checkAdmin() {
     const token= this.getToken();
-    console.log(token, '<<<< after this.getToken')
+    // console.log(token, '<<<< after this.getToken')
     if (!token) {
-      console.log(token, '<<<< inside if')
+      // console.log(token, '<<<< inside if')
       return false
     } 
-    console.log(token, '<<<< if there is token')
+    // console.log(token, '<<<< if there is token')
 
     const decoded = decode(token);
     return decoded.data.admin === true;

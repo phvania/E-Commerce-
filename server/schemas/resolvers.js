@@ -12,7 +12,7 @@ const resolvers = {
     getSales: async () => {
       return await Product.find({
         sale: true
-      })
+      }).populate('category')
     },
 
     // search for product via query // no auth
@@ -378,7 +378,7 @@ const resolvers = {
     updateOrderShipped: async (parent, { _id, shipped }, context) => {
       if (context.user.admin) {
         try {
-          const updatedOrder = await Order.findByIdAndUpdate(_id, { shipped }, { new: true });
+          const updatedOrder = await Order.findByIdAndUpdate(_id, { shipped }, { new: true }).populate('products');
 
           if (!updatedOrder) {
             throw new Error('Order not found');
@@ -395,7 +395,7 @@ const resolvers = {
     updateOrderCompleted: async (parent, { _id, completed }, context) => {
       if (context.user.admin) {
         try {
-          const completedOrder = await Order.findByIdAndUpdate(_id, { completed }, { new: true });
+          const completedOrder = await Order.findByIdAndUpdate(_id, { completed }, { new: true }).populate('products');
 
           if (!completedOrder) {
             throw new Error('Order not found');

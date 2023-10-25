@@ -13,7 +13,8 @@ function ProductItem(item) {
     name,
     _id,
     price,
-    quantity
+    quantity,
+    author
   } = item;
 
   const { cart } = state
@@ -40,13 +41,15 @@ function ProductItem(item) {
   }
 
   return (
-    <div className="card px-1 py-1">
-      <Link to={`/products/${_id}`}>
-        <img
+    <div className="card px-1 py-1" style={{ textAlign: 'center' }}>
+      <Link to={`/products/${_id}`} style={{ textDecoration: 'none', color: 'black' }}>
+        <img className="product-image" 
           alt={name}
           src={`${image}`}
+          style={{ display: 'block', margin: '0 auto' }}
         />
-        <p>{name}</p>
+        <p style={{ marginTop: '10px' }}>{name}</p>
+        <p p style={{ fontSize: '16px' }}>By: {author}</p>
       </Link>
       <div>
         <div>{quantity} {pluralize("item", quantity)} in stock</div>

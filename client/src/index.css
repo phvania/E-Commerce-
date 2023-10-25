@@ -16,9 +16,12 @@
 html,
 body {
   min-height: 100%;
+  
 }
 
-
+nav {
+  flex-basis: 30%;
+}
 
 
 body {
@@ -29,7 +32,6 @@ body {
   line-height: 1.5;
   font-size: 16px;
   color: var(--dark);
-  background-color: aquamarine !important; 
 }
 
 h1,
@@ -103,6 +105,10 @@ button {
   cursor: pointer;
   margin: 0 1px;
   background-color: var(--secondary);
+  
+}
+.link {
+  text-align: center;
 }
 
 button:hover {
@@ -122,7 +128,6 @@ h2 button {
 
 img {
   max-width: 100%;
-  padding-left: 30%;
   padding-bottom: -20px;
   
 }
@@ -220,6 +225,28 @@ input:focus {
 
 .error-text {
   color: var(--error);
+}
+
+.product-image {
+  width: 247px;  
+  height: 310px; 
+  object-fit: contain; 
+}
+
+button {
+  background-color: #B4D2E7;
+  color: black;
+  border: none;
+  border-radius: 40px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+
+  transition: box-shadow 0.3s ease; 
+
+  cursor: pointer; 
+
+}
+button:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); 
 }
 
 @media screen and (max-width: 768px) {
