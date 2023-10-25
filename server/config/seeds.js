@@ -269,6 +269,39 @@ db.once('open', async () => {
       dateAdded: '169712052542',
       tags: []
     },
+    {
+      name: "Physics",
+      author: ['Douglas C Giancoli'],
+      category: categories[4]._id,
+      description:
+        'Description.',
+      image: 'https://d3525k1ryd2155.cloudfront.net/h/005/379/1295379005.0.m.jpg',
+      price: 19.99,
+      quantity: 80,
+      tags: []
+    },
+    {
+      name: "Chemistry",
+      author: ['Nivaldo J Tro'],
+      category: categories[4]._id,
+      description:
+        'Description.',
+      image: 'https://d3525k1ryd2155.cloudfront.net/h/013/127/1410127013.0.m.jpg',
+      price: 19.99,
+      quantity: 80,
+      tags: []
+    },
+    {
+      name: "Principles of Economics",
+      author: ['N Gregory Mankiw'],
+      category: categories[4]._id,
+      description:
+        'Description.',
+      image: 'https://d3525k1ryd2155.cloudfront.net/h/163/185/728185163.0.m.jpg',
+      price: 19.99,
+      quantity: 80,
+      tags: []
+    },
 
   ]);
 
