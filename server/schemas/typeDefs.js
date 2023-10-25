@@ -55,6 +55,7 @@ const typeDefs = gql `
     image: String
     price: Float
     quantity: Int
+    author: [String]
   }
 
   type Query {
