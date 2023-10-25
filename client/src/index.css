@@ -16,6 +16,7 @@
 html,
 body {
   min-height: 100%;
+  
 }
 
 nav {
@@ -229,7 +230,23 @@ input:focus {
 .product-image {
   width: 247px;  
   height: 310px; 
-  object-fit: cover; 
+  object-fit: contain; 
+}
+
+button {
+  background-color: #B4D2E7;
+  color: black;
+  border: none;
+  border-radius: 40px !important;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+
+  transition: box-shadow 0.3s ease; 
+
+  cursor: pointer; 
+
+}
+button:hover {
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2); 
 }
 
 @media screen and (max-width: 768px) {
