@@ -31,7 +31,6 @@ body {
   line-height: 1.5;
   font-size: 16px;
   color: var(--dark);
-  background-color: aquamarine !important; 
 }
 
 h1,
@@ -128,7 +127,6 @@ h2 button {
 
 img {
   max-width: 100%;
-  padding-left: 10%;
   padding-bottom: -20px;
   
 }
@@ -226,6 +224,12 @@ input:focus {
 
 .error-text {
   color: var(--error);
+}
+
+.product-image {
+  width: 247px;  
+  height: 310px; 
+  object-fit: cover; 
 }
 
 @media screen and (max-width: 768px) {

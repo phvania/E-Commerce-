@@ -109,3 +109,19 @@ deleteProduct(_id: $id) {
   }
 }
 `;
+
+export const UPDATE_ORDER_SHIPPED = gql`
+mutation updateOrderShipped($id: ID!, $shipped: Boolean!){
+  updateOrderShipped(_id: $id, shipped: $shipped) {
+    _id
+  }
+}
+`;
+
+export const UPDATE_ORDER_COMPLETED = gql`
+mutation updateOrderShipped($id: ID!, $completed: Boolean!){
+  updateOrderShipped(_id: $id, completed: $completed) {
+    _id
+  }
+}
+`;
