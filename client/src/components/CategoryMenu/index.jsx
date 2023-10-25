@@ -52,7 +52,6 @@ function CategoryMenu() {
 
   return (
     <div className='link'>
-      <h2>Choose a Category:</h2>
       {categories.map((item) => (
         <button 
         key={item._id}
@@ -60,6 +59,7 @@ function CategoryMenu() {
            console.log(item._id)
            handleClick(item._id);
           }}
+          style={{ margin: '10px' }}
          >
           {item.name}
          </button>
@@ -71,7 +71,7 @@ function CategoryMenu() {
 
       {isAdmin && (
       <button>
-        Admin testing
+        Add Category
       </button>
     )}
     </div>

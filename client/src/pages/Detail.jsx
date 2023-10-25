@@ -143,10 +143,11 @@ function Detail() {
               />
             </div>
 
-            <div style={{ flex: 1, marginLeft: '20px' }}>
+            <div style={{ flex: 1, marginLeft: '20px',display: 'flex', flexDirection: 'column', justifyContent: 'space-between'  }}>
               <h2>{currentProduct.name}</h2>
+              <h4>By: {currentProduct.author}</h4>
               <p>{currentProduct.description}</p>
-              <strong>Price:</strong>${currentProduct.price}{' '}
+              <strong>Price: ${currentProduct.price}{' '}</strong>
               {isAdmin ? (
                 <>
                   <button onClick={openEditModal}>Edit Product Details</button>
