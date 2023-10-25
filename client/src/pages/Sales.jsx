@@ -6,34 +6,34 @@ import ProductItem from "../components/ProductItem";
 
 
 import { useStoreContext } from "../utils/GlobalState";
-import { UPDATE_PRODUCTS } from '../utils/actions';
+// import { UPDATE_PRODUCTS } from '../utils/actions';
 import { useQuery } from '@apollo/client';
-import { QUERY_PRODUCTS } from '../utils/queries';
+import { QUERY_SALES } from '../utils/queries';
 
 // import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 
 const Sales = () => {
-    console.log('hello')
+    // console.log('hello')
     const [state, dispatch] = useStoreContext();
 
-    const { loading, data } = useQuery(QUERY_PRODUCTS);
+    const { loading, data } = useQuery(QUERY_SALES);
+    // console.log(data)
 
     // setUpdatedProducts(updatedFilteredProducts);
     //     }, [filterCriteria, saleProducts]);
-    const products = data?.products || []
-    console.log(products)
+    const products = data?.getSales || []
+    // console.log(products)
     return (
         <div className="sale-page">
             <h3> Current Sales: </h3>
             <h3>Books on 30% off:</h3>
-            <img src="./public/images/paper-style-black-friday-composition.jpg" alt="discount image" height={60}  width={720}>
+            <img src="./public/images/paper-style-black-friday-composition.jpg" alt="discount image" height={60}  width={510}>
                 </img>
             
-            <div className="product-list">
-                
+            <div className="flex-row product-list ">
+ 
                  {products.map((product) => {
-                    if (product.sale == true) {
                      return ( <ProductItem  key={product._id}
                         _id={product._id}
                         image={product.image}
@@ -41,7 +41,7 @@ const Sales = () => {
                         price={product.price}
                         quantity={product.quantity}
                          />)
-                    }
+                    
                 })} 
                 
                 

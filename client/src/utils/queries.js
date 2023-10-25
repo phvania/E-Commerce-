@@ -21,6 +21,25 @@ export const QUERY_PRODUCTS = gql`
   }
 `;
 
+export const QUERY_SALES = gql`
+query Query {
+  getSales {
+    _id
+    author
+    dateAdded
+    description
+    image
+    name
+    price
+    quantity
+    category {
+      _id
+      name
+    }
+    tags
+  }
+}`;
+
 
 export const QUERY_FILTER_SORT_PRODUCTS = gql`
 query Query($filter: String, $sort: String, $min: Int, $max: Int) {
