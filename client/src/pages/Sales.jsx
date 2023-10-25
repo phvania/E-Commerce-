@@ -27,11 +27,11 @@ const Sales = () => {
         <div className="sale-page">
             <h3> Current Sales: </h3>
             <h3>Books on 30% off:</h3>
-            <img src="./public/images/paper-style-black-friday-composition.jpg" alt="discount image" height={60}  width={720}>
+            <img src="./public/images/paper-style-black-friday-composition.jpg" alt="discount image" height={60}  width={510}>
                 </img>
             
-            <div className="product-list">
-                
+            <div className="flex-row product-list ">
+ 
                  {products.map((product) => {
                     if (product.sale == true) {
                      return ( <ProductItem  key={product._id}
