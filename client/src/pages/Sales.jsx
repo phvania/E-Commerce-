@@ -26,10 +26,7 @@ const Sales = () => {
     // console.log(products)
     return (
         <div className="sale-page">
-            <h3> Current Sales: </h3>
             <h3>Books on 30% off:</h3>
-            <img src="./public/images/paper-style-black-friday-composition.jpg" alt="discount image" height={60}  width={510}>
-                </img>
             
             <div className="flex-row product-list ">
  

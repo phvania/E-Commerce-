@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { gql } from '@apollo/client'; // Import gql from Apollo Client
+import { gql } from '@apollo/client'; 
 import React, { useState } from 'react';
 import Table from 'react-bootstrap/Table';
 import { QUERY_ORDERS } from '../utils/queries';
+
 
 const initialFilters = {
   filterOption: 'none', 
@@ -36,6 +37,7 @@ function ViewOrders() {
     <div>
       <h1>Order History</h1>
 
+      {/* Filter options */}
       <div>
         <label>
           <input
@@ -74,10 +76,10 @@ function ViewOrders() {
           <tr>
             <th>Order ID</th>
             <th>Purchase Date</th>
+            <th>Products</th>
+            <th>Total</th>
             <th>Shipped</th>
             <th>Completed</th>
-            <th>Total</th>
-            <th>Products</th>
           </tr>
         </thead>
         <tbody>
@@ -85,9 +87,6 @@ function ViewOrders() {
             <tr key={order._id}>
               <td>{order._id}</td>
               <td>{new Date(parseInt(order.purchaseDate)).toLocaleDateString()}</td>
-              <td>{order.shipped ? 'Yes' : 'No'}</td>
-              <td>{order.completed ? 'Yes' : 'No'}</td>
-              <td>${calculateTotal(order.products)}</td>
               <td>
                 <ul>
                   {order.products.map((product) => (
@@ -97,6 +96,9 @@ function ViewOrders() {
                   ))}
                 </ul>
               </td>
+              <td>${calculateTotal(order.products)}</td>
+              <td>{order.shipped ? 'Yes' : 'No'}</td>
+              <td>{order.completed ? 'Yes' : 'No'}</td>
             </tr>
           ))}
         </tbody>
