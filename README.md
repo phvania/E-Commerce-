@@ -1,13 +1,12 @@
 
 ## E-Commerce- Application ##
 
-hi
 Project 3 by: Riley Song, Priti, and Max Walent
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
-<a href='#'>Deployment</a>
+<a href='https://riley1-3f2201f3866a.herokuapp.com/'>Deployment</a>
 
 ## About:
 This is an E-Commerce website built for selling books online.
@@ -33,7 +32,7 @@ Note: Currently the checkout is not working. Clicking on checkout from the cart 
 ## Login Credientals for Testing
 Basic User
 
-- Username: eholt@testmail.com
+- Username: jsmith@fake.com
 - Password: password12345
 
 
